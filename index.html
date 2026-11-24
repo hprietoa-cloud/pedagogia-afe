@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pedagogia i principis didàctics de l’AFE</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=Public+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Concepte: un pavelló esportiu. Menú com la banqueta (blau nit), pàgines com la pista: blau de pavelló, línies grogues i blanques. */
+:root{
+--paper:#F2F5F8;--card:#FFFFFF;--ink:#122033;--muted:#55657A;--line:#D6DEE7;--soft:#E8EEF4;
+--court:#1D4F91;--court-ink:#FFFFFF;--stripe:#F5C518;--side:#0C2340;--side-ink:#EEF3F9;
+--accent:#1D4F91;--good:#15803D;--bad:#B4234F;--c:#1D4F91;
+--f-display:"Archivo","Arial Narrow",system-ui,sans-serif;--f-body:"Public Sans","Segoe UI",system-ui,sans-serif;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#0B1520;--card:#122030;--ink:#E7EEF5;--muted:#9DB0C4;--line:#233548;--soft:#172A3D;--court:#1B4A88;--side:#06111C;--side-ink:#E7EEF5;--accent:#7FB0F0;--good:#4ADE80;--bad:#F472A0;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#0B1520;--card:#122030;--ink:#E7EEF5;--muted:#9DB0C4;--line:#233548;--soft:#172A3D;--court:#1B4A88;--side:#06111C;--side-ink:#E7EEF5;--accent:#7FB0F0;--good:#4ADE80;--bad:#F472A0;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.65 var(--f-body);display:grid;grid-template-columns:300px minmax(0,1fr);min-height:100vh}
+h1,h2,h3,h4{font-family:var(--f-display);text-wrap:balance;letter-spacing:-.01em}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:var(--stripe);color:#000;padding:8px 12px;z-index:9}
+
+/* Banqueta (menú) */
+aside{background:var(--side);color:var(--side-ink);padding:22px 14px;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;gap:14px;border-right:4px solid var(--stripe)}
+.brand{display:flex;gap:10px;align-items:center}
+.brand svg{flex:none}
+aside h1{font:800 19px/1.15 var(--f-display);font-stretch:112%;margin:0}
+aside p{margin:0;font-size:13px;opacity:.7;line-height:1.4}
+#q{width:100%;padding:10px 12px;border-radius:8px;border:1px solid #ffffff2e;background:#ffffff12;color:var(--side-ink);font:15px var(--f-body)}
+#q::placeholder{color:#ffffff99}
+.bar{height:6px;background:#ffffff1f;border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--stripe);transition:width .4s}
+.prog{font:600 12px var(--f-body);opacity:.8;margin-top:5px;letter-spacing:.02em}
+nav{display:flex;flex-direction:column;gap:1px}
+nav .mh{font:700 11px/1.3 var(--f-display);text-transform:uppercase;letter-spacing:.12em;margin:16px 8px 4px;display:flex;gap:8px;align-items:center;opacity:.75}
+nav .mh::before{content:"";width:12px;height:4px;background:var(--c);border-radius:2px}
+nav .sep{height:1px;background:#ffffff1f;margin:10px 0}
+nav button{all:unset;cursor:pointer;padding:8px 10px;border-radius:7px;font:500 14.5px/1.3 var(--f-body);display:flex;gap:10px;align-items:flex-start}
+nav button:hover{background:#ffffff14}
+nav button[aria-current="true"]{background:#ffffff1f;box-shadow:inset 3px 0 0 var(--stripe);font-weight:700}
+nav .tick{flex:none;width:14px;height:14px;border:2px solid #ffffff66;border-radius:3px;margin-top:2px}
+nav .done .tick{background:var(--stripe);border-color:var(--stripe)}
+nav button:focus-visible,.themebtn:focus-visible{outline:3px solid var(--stripe);outline-offset:2px}
+.themebtn{all:unset;cursor:pointer;font:600 13px var(--f-body);opacity:.8;margin-top:auto;padding:6px 0}
+
+/* Pista (contingut) */
+main{padding-block:28px 80px;padding-left:max(16px,clamp(18px,4vw,52px));padding-right:max(16px,clamp(18px,4vw,52px));max-width:1040px;min-width:0}
+main a{color:var(--accent)}
+main small{color:var(--muted)}
+:is(.btn,.fc,.opt,.lnk,.chip,.seg button,.mc,.tg-ex):focus-visible,main a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+.court{position:relative;overflow:hidden;background:var(--court);color:var(--court-ink);border-radius:14px;padding:40px clamp(20px,4vw,44px) 36px;margin:0 0 26px}
+.court svg.lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.court > *:not(svg){position:relative}
+.court .eyebrow{font:700 12px var(--f-display);letter-spacing:.16em;text-transform:uppercase;color:var(--stripe)}
+.court h2{font:900 clamp(32px,5.4vw,58px)/1 var(--f-display);font-stretch:118%;margin:10px 0 14px;max-width:13em;text-transform:uppercase}
+.court p{font-size:clamp(16px,2vw,19px);margin:0;max-width:46ch;opacity:.92}
+.score{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.score span{background:#00000038;border:1px solid #ffffff38;border-radius:6px;padding:6px 12px;font:600 13px var(--f-body)}
+.score b{font:800 20px var(--f-display);color:var(--stripe);margin-right:6px;font-variant-numeric:tabular-nums}
+
+/* Capçalera de tema: compacta */
+.thead{border-bottom:4px solid var(--c);padding:6px 0 16px;margin:0 0 22px}
+.thead .eyebrow{display:inline-flex;align-items:center;gap:8px;font:700 12px var(--f-display);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.thead .eyebrow i{width:10px;height:10px;background:var(--c);border-radius:2px}
+.thead h2{font:800 clamp(28px,4vw,40px)/1.08 var(--f-display);font-stretch:108%;margin:8px 0 8px}
+.thead p{margin:0;color:var(--muted);font-size:18px;max-width:60ch}
+
+/* Mòduls a l'inici */
+.mods{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.mc{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.mc header{background:var(--c);color:#fff;padding:16px 18px 14px;position:relative;overflow:hidden}
+.mc header svg{position:absolute;right:-18px;top:-18px;width:110px;height:110px;opacity:.28}
+.mc .no{font:800 12px var(--f-display);letter-spacing:.14em;text-transform:uppercase;opacity:.85}
+.mc h3{font:800 22px/1.1 var(--f-display);margin:4px 0 0;color:#fff}
+.mc p{margin:12px 18px 6px;font-size:15px;line-height:1.5;color:var(--muted)}
+.mc ul{list-style:none;margin:0;padding:4px 10px 12px}
+.mc li button{all:unset;cursor:pointer;display:block;box-sizing:border-box;width:100%;padding:7px 8px;border-radius:6px;font:500 15px/1.35 var(--f-body)}
+.mc li button:hover{background:var(--soft)}
+.mc li button::before{content:"›";color:var(--c);font-weight:800;margin-right:8px}
+
+/* Blocs de contingut */
+.blocks{display:grid;gap:12px}
+.b{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 22px}
+.b h3{font:700 19px/1.25 var(--f-display);margin:0 0 6px}
+.b p,.b ul{margin:0 0 8px;max-width:72ch}
+.b>:last-child{margin-bottom:0}
+.b.lead-b{border-color:transparent;background:var(--soft)}
+.kt{font:800 13px var(--f-display);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:34px 0 12px}
+.fcs{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.fc{all:unset;cursor:pointer;display:block;border:1px solid var(--line);border-top:4px solid var(--c);background:var(--card);border-radius:8px;padding:12px 14px;font-size:15px;line-height:1.5;min-height:70px}
+.fc b{font:700 16px var(--f-display);display:block}
+.fc span{display:none;margin-top:4px;color:var(--muted)}
+.fc .hint{display:block;font-size:12px;color:var(--muted);margin-top:4px}
+.fc[aria-expanded="true"] span{display:block}
+.fc[aria-expanded="true"] .hint{display:none}
+.empty{border:2px dashed var(--line);border-radius:10px;padding:24px;color:var(--muted)}
+
+/* Taules */
+.tw{overflow-x:auto;margin:0 0 18px;border-radius:10px;border:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;font-size:15px;line-height:1.5;background:var(--card)}
+th,td{border-bottom:1px solid var(--line);padding:10px 14px;text-align:left;vertical-align:top}
+tr:last-child>*{border-bottom:0}
+thead th{background:var(--soft);font:700 13px var(--f-display);letter-spacing:.06em;text-transform:uppercase;border-bottom:3px solid var(--c)}
+tbody th{font-family:var(--f-display);font-weight:700}
+
+/* Botons */
+.btn{all:unset;cursor:pointer;font:700 15px var(--f-display);padding:10px 18px;border-radius:8px;border:2px solid var(--c);color:var(--ink)}
+.btn:hover,.btn[aria-pressed="true"]{background:var(--c);color:#fff}
+.pn{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+dl{margin:0}dt{font:700 17px var(--f-display);margin-top:14px}dd{margin:2px 0 0;max-width:70ch}
+.az{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.az a{font:700 14px var(--f-display);text-decoration:none;padding:4px 9px;border:1px solid var(--line);border-radius:6px;background:var(--card)}
+
+/* Esquemes */
+.dg{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:0 0 18px}
+.dg>h3{font:800 12px var(--f-display);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 14px;display:flex;gap:8px;align-items:center}
+.dg>h3::before{content:"";width:14px;height:14px;border:3px solid var(--c);border-radius:50%}
+.dg .cap{font-size:14px;color:var(--muted);margin:12px 0 0;max-width:70ch}
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px}
+.flow .st{flex:1 1 150px;min-width:0;background:var(--soft);border-radius:8px;padding:12px 14px;border-top:4px solid var(--c)}
+.flow .st b{font:800 16px/1.2 var(--f-display);display:block}
+.flow .st small{display:block;font-size:13.5px;line-height:1.45;margin-top:4px}
+.flow .ar{flex:none;align-self:center;font:800 22px var(--f-display);color:var(--c)}
+.flow.cyc::after{content:"↻ el cicle torna a començar";flex-basis:100%;font:600 13px var(--f-body);color:var(--muted)}
+.eq{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.eq span{background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font:700 15px var(--f-display)}
+.eq em{font:800 20px var(--f-display);font-style:normal;color:var(--c)}
+.eq strong{background:var(--c);color:#fff;border-radius:8px;padding:8px 14px;font:800 15px var(--f-display)}
+.nest{border:2px solid var(--c);border-radius:12px;padding:10px 12px 12px;font:700 14px var(--f-display)}
+.nest .nest{margin-top:8px;border-style:dashed}
+.nest .core{margin-top:8px;background:var(--c);color:#fff;border-radius:8px;padding:10px 12px}
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.trio>div{background:var(--soft);border-radius:10px;padding:14px;text-align:center}
+.trio b{display:block;font:800 18px var(--f-display)}
+.trio .q{display:block;font:700 13px var(--f-display);color:var(--c);letter-spacing:.06em;text-transform:uppercase;margin:2px 0 6px}
+.trio small{display:block;font-size:13.5px;line-height:1.45}
+.trio .mid{background:var(--c);color:#fff}
+.trio .mid .q{color:#fff;opacity:.85}
+.ctx{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.ctx span{font:600 13px var(--f-body);border:1px dashed var(--line);border-radius:999px;padding:4px 12px}
+.spec{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.spec div{background:var(--soft);border-radius:8px;padding:10px;font-size:13px;line-height:1.4;border-bottom:4px solid var(--c)}
+.spec b{display:block;font:800 14px var(--f-display);margin-bottom:2px}
+.axis{display:flex;justify-content:space-between;font:700 12px var(--f-display);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:10px;border-top:2px solid var(--line);padding-top:8px;gap:12px}
+.stairs{display:flex;align-items:flex-end;gap:6px;height:190px}
+.stairs div{flex:1;min-width:0;background:var(--c);color:#fff;border-radius:6px 6px 0 0;padding:6px;font:700 12.5px/1.2 var(--f-display);display:flex;align-items:flex-start;justify-content:center;text-align:center}
+.pyr{display:flex;flex-direction:column;align-items:center;gap:6px}
+.pyr div{background:var(--c);color:#fff;border-radius:8px;padding:10px 14px;text-align:center;font-size:13.5px;line-height:1.4}
+.pyr b{display:block;font:800 16px var(--f-display)}
+.pyr div:nth-child(1){width:55%;opacity:.75}.pyr div:nth-child(2){width:78%;opacity:.88}.pyr div:nth-child(3){width:100%}
+.bars{display:grid;gap:10px}
+.bars .row{display:grid;grid-template-columns:minmax(120px,230px) 1fr;gap:12px;align-items:center;font-size:14px}
+.bars .tr{background:var(--soft);border-radius:4px;height:26px;position:relative}
+.bars .tr i{position:absolute;inset:0 auto 0 0;background:var(--c);border-radius:4px}
+.bars .tr span{position:absolute;left:8px;top:50%;transform:translateY(-50%);font:800 13px var(--f-display);color:#fff;font-variant-numeric:tabular-nums}
+.season{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.season div{background:var(--soft);border-radius:8px;padding:10px;font-size:13px;line-height:1.4}
+.season b{display:block;font:800 14.5px var(--f-display)}
+.season .lv{height:8px;border-radius:4px;background:var(--line);margin:8px 0 6px;overflow:hidden}
+.season .lv i{display:block;height:100%;background:var(--c)}
+.hub{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}
+.hub .ctr{background:var(--c);color:#fff;border-radius:50%;width:150px;height:150px;display:flex;align-items:center;justify-content:center;text-align:center;font:800 15px/1.2 var(--f-display);padding:14px;margin:auto}
+.hub .col{display:grid;gap:8px}
+.hub .col div{background:var(--soft);border-radius:8px;padding:10px 12px;font-size:13.5px;line-height:1.4}
+.hub b{font:800 15px var(--f-display);display:block}
+.hex{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.hex div{background:var(--soft);border-left:4px solid var(--c);border-radius:6px;padding:10px 12px;font:700 15px/1.3 var(--f-display)}
+.hex small{display:block;font:500 12px var(--f-body);color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+
+/* Eines interactives */
+.tool{display:grid;gap:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip,.tg-ex{all:unset;cursor:pointer;font:600 14px var(--f-body);padding:7px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--card)}
+.chip[aria-pressed="true"],.tg-ex[aria-pressed="true"]{background:var(--c);border-color:var(--c);color:#fff}
+.axes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.axes div{background:var(--soft);border-radius:8px;padding:10px 12px}
+.axes small{display:block;font:700 11.5px var(--f-display);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.axes b{font:800 17px var(--f-display)}
+.seg{display:grid;grid-template-columns:150px 1fr;gap:10px;align-items:center}
+.seg>span{font:700 14px var(--f-display)}
+.seg .o{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{all:unset;cursor:pointer;font:500 14px var(--f-body);padding:6px 12px;border-radius:6px;border:1.5px solid var(--line);background:var(--card)}
+.seg button[aria-pressed="true"]{border-color:var(--c);background:var(--c);color:#fff}
+.meter{position:relative;height:14px;border-radius:7px;background:linear-gradient(90deg,var(--good),var(--stripe),var(--bad))}
+.meter i{position:absolute;top:-5px;width:6px;height:24px;border-radius:3px;background:var(--ink);transform:translateX(-50%);transition:left .25s}
+.mlab{display:flex;justify-content:space-between;font:700 12px var(--f-display);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.verdict{font:700 16px var(--f-display)}
+
+/* Perfils */
+.pfs{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px;margin:0 0 14px}
+.pf{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.pf .top{background:var(--c);color:#fff;padding:20px;display:flex;gap:14px;align-items:center}
+.pf img,.pf .av{width:84px;height:84px;border-radius:50%;object-fit:cover;flex:none;border:3px solid #ffffff80}
+.pf .av{display:flex;align-items:center;justify-content:center;background:#ffffff26;font:800 28px var(--f-display)}
+.pf h3{font:800 22px/1.1 var(--f-display);margin:0 0 4px;color:#fff}
+.pf .rm{margin:0;font-size:14px;opacity:.9}
+.pf .bd{display:inline-block;font:700 11.5px var(--f-display);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.pf .body{padding:16px 20px 20px}
+.pf .sp{font:700 16px/1.3 var(--f-display);margin:2px 0 8px}
+.pf .tx{font-size:15px;line-height:1.55;margin:0 0 12px}
+.pf .tg{display:flex;flex-wrap:wrap;gap:6px;list-style:none;padding:0;margin:0}
+.pf .tg li{border:1px solid var(--line);border-radius:999px;padding:3px 10px;font:500 13px var(--f-body)}
+.note{font-size:14px;color:var(--muted)}
+.pf .av svg{width:100%;height:100%;display:block}
+.pf .ml{margin:4px 0 0;font-size:13.5px;overflow-wrap:anywhere}
+.pf .ml a{color:#fff}
+/* Il·lustracions */
+.court.has-art{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:18px;align-items:center}
+.court .art{margin:0;align-self:end}
+.court .art svg{width:100%;height:auto;display:block}
+.mc header{min-height:92px;padding-right:96px}
+.mc header svg{position:absolute;right:16px;top:50%;width:62px;height:62px;transform:translateY(-50%);opacity:.95}
+.thead{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:end}
+.ticon{width:78px;height:78px;border-radius:12px;background:var(--c);padding:10px;margin-bottom:4px}
+.ticon svg{width:100%;height:100%;display:block}
+@media (max-width:860px){.court.has-art{grid-template-columns:minmax(0,1fr)}.court .art{max-width:360px;justify-self:center;width:100%}}
+.pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:start}
+.scene{margin:0;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.scene svg{display:block;width:100%;height:auto}
+.scene figcaption{font-size:13.5px;line-height:1.45;color:var(--muted);padding:10px 14px 12px}
+@media (max-width:1000px){.pair{grid-template-columns:minmax(0,1fr)}.pair .scene{max-width:520px}}
+@media (max-width:560px){.ticon{width:56px;height:56px;padding:7px}}
+
+/* Quiz */
+.qo{display:flex;flex-direction:column;gap:8px;margin:10px 0 4px}
+.opt{all:unset;cursor:pointer;box-sizing:border-box;width:100%;padding:10px 14px;border-radius:8px;border:1.5px solid var(--line);font:500 15.5px/1.4 var(--f-body)}
+.opt:hover:not([disabled]){border-color:var(--c)}
+.opt[disabled]{cursor:default;opacity:.7}
+.opt.good{border-color:var(--good);background:color-mix(in srgb,var(--good) 14%,transparent);opacity:1}
+.opt.bad{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 14%,transparent);opacity:1}
+.fbk{font-size:15px;margin-top:8px}
+.lnk{all:unset;cursor:pointer;color:var(--accent);text-decoration:underline;font:inherit}
+
+@media (max-width:860px){body{grid-template-columns:minmax(0,1fr)}aside{position:static;height:auto;border-right:0;border-bottom:4px solid var(--stripe)}nav{max-height:300px;overflow-y:auto}
+.spec,.season{grid-template-columns:repeat(2,minmax(0,1fr))}.axes{grid-template-columns:repeat(2,minmax(0,1fr))}.hex{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.trio{grid-template-columns:1fr}.hub{grid-template-columns:1fr}.flow .ar{transform:rotate(90deg);width:100%;text-align:center}.seg{grid-template-columns:1fr}.bars .row{grid-template-columns:1fr;gap:4px}.stairs{height:230px}.stairs div{font-size:11px}}
+@media (prefers-reduced-motion:reduce){.bar i,.meter i{transition:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Salta al contingut</a>
+<aside>
+  <div class="brand"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true"><rect x="2" y="2" width="36" height="36" rx="6" stroke="#F5C518" stroke-width="3"/><line x1="20" y1="2" x2="20" y2="38" stroke="#F5C518" stroke-width="3"/><circle cx="20" cy="20" r="7" stroke="#F5C518" stroke-width="3"/></svg><h1>Pedagogia i principis didàctics de l’AFE</h1></div>
+  <p>Martí Talamino i Hugo Prieto · TecnoCampus</p>
+  <input id="q" type="search" placeholder="Cerca al temari" aria-label="Cerca al temari">
+  <div><div class="bar"><i id="pb"></i></div><div class="prog" id="pt"></div></div>
+  <nav id="nav" aria-label="Temes"></nav>
+  <button class="themebtn" id="tb" type="button">Canvia a mode fosc</button>
+</aside>
+<main id="main" tabindex="-1"></main>
+
+<script>
+/* ===== TEMARI =====
+   MODULS: [id, nom, descripció, color, color2] · TEMAS: m = id del mòdul, s = [títol, text], k = [concepte, definició], tb = taula (1a fila = capçalera) */
+const MODULS = [
+  ["fonaments", "Fonaments", "Educació, pedagogia i didàctica: els tres conceptes que vertebren la pràctica docent.", "#1D4F91", ""],
+  ["models", "Models pedagògics", "Del model tradicional al conectivisme, i vuit models aplicats a l’Educació Física.", "#C2410C", ""],
+  ["critic", "Pensament crític", "Eines per pensar amb rigor i amb sentit social.", "#9D174D", ""],
+  ["tasca", "La tasca motriu", "La cèl·lula bàsica de la programació: què és, com es classifica i com es dissenya.", "#0F766E", ""],
+  ["docent", "El professorat", "Perfils, competències i gestió de la sessió d’Educació Física.", "#5B21B6", ""],
+  ["valors", "Valors en l’Educació Física", "Respecte, cooperació, esforç, autonomia, joc net i inclusió.", "#15803D", ""],
+  ["practica", "A la pista", "Propostes pràctiques que hem dissenyat aplicant el temari.", "#A16207", ""]
+];
+const TEMAS = [
+{id:"educacio-pedagogia-didactica", m:"fonaments", t:"Educació, pedagogia i didàctica", r:"Tres conceptes diferents i complementaris que vertebren la pràctica docent.",
+ s:[["L’educació: el fenomen","Procés intencional, permanent i social que desenvolupa coneixements, habilitats, actituds, valors i competències en totes les dimensions de la persona: cognitiva, motriu, emocional, social i ètica. Es dona en contextos formals (escola, institut, universitat), no formals (clubs esportius, associacions, extraescolars) i informals (família, grup d’iguals, mitjans). Sarramona (2008) l’entén com una acció intencional de desenvolupament integral i socialització; Dewey (1916), com la reconstrucció contínua de l’experiència; Freire (1996), com una pràctica de llibertat; i la UNESCO (2021), com un bé comú."],
+ ["La pedagogia: la ciència de l’educació","Disciplina científica que té l’educació com a objecte d’estudi: n’analitza les finalitats i els fonaments filosòfics, psicològics, socials i ètics (Friesen i Su, 2023). Dona el marc conceptual que justifica l’acció educativa i respon tres preguntes: per què eduquem?, quina finalitat perseguim? i quins valors promovem?"],
+ ["La didàctica: la concreció de l’acció docent","Branca de la pedagogia que estudia l’ensenyament i l’aprenentatge i com les finalitats es converteixen en situacions reals d’aula (Ligozat, Klette i Almqvist, 2023). Es resumeix en quatre preguntes: què ensenyem (continguts i competències), com ho ensenyem (ABP, treball cooperatiu, ApS...), amb quins recursos i com sabem si han après (avaluació)."],
+ ["Pedagogia i didàctica: la distinció clau","Les decisions pedagògiques fixen el per què i el per a què: model de ciutadania, valors del projecte educatiu, si es prioritza la inclusió, l’autonomia o el rendiment. Les didàctiques concreten el com: metodologies, recursos, espais i temps, activitats i avaluació formativa. Les decisions metodològiques només tenen sentit si responen a una concepció educativa (Zabala, 1995)."],
+ ["Un exemple a l’Educació Física","Si el docent entén que l’EF ha de contribuir al desenvolupament integral (cooperació, autonomia, respecte, salut, inclusió i pensament crític), triarà models coherents: educació esportiva, gamificació, aprenentatge cooperatiu o responsabilitat personal i social. Si la finalitat fos el rendiment esportiu, optaria per metodologies més directives i repetició tècnica. La diferència no és l’activitat, sinó la finalitat que la justifica."],
+ ["Competències docents","La competència pedagògica és comprendre finalitats, valors i fonaments i prendre decisions coherents amb un projecte educatiu. La competència didàctica és planificar, desenvolupar i avaluar l’ensenyament i l’aprenentatge. Un bon docent necessita totes dues."]],
+ k:[["Educació","El fenomen: procés intencional, permanent i social de desenvolupament integral."],["Pedagogia","Ciència que estudia l’educació; respon al per què i al per a què."],["Didàctica","Concreció de l’acció docent; respon al com."],["Educació formal","Escola, institut o universitat, amb currículum estructurat."],["Educació no formal","Clubs, associacions i extraescolars: intencional però fora del sistema reglat."],["Educació informal","Família, iguals i mitjans: aprenentatge no planificat."]]},
+
+{id:"introduccio-pensament-critic", m:"critic", t:"Introducció al pensament crític", r:"Ser crític no és el mateix que pensar críticament.",
+ s:[["Autonomia i pensament crític (CCT5)","Capacitat de conèixer-se, gestionar accions i emocions, reflexionar críticament sobre la informació, aprendre de manera autònoma al llarg de la vida, prendre decisions responsables i qüestionar què s’aprèn i com s’aprèn."],
+ ["Ser crític no és pensar críticament","Segons Sandy Ikeda, sovint es confon el pensament crític amb l’escepticisme. Davant algú que afirma una cosa amb què no estem d’acord, solem fer una de tres coses: deixar d’escoltar, encaixar l’afirmació al nostre sistema de creences o intentar «educar» l’altre. Cap d’aquestes respostes ens fa avançar, i totes atrofien el creixement intel·lectual."],
+ ["Què implica pensar críticament","Qüestionar un sistema de creences, sobretot el propi, identificant les premisses que sostenen una afirmació i preguntant-se si les conclusions se’n deriven realment, si les premisses són raonables i si allò que jo considero raonable ho és de debò."]],
+ k:[["Pensament crític","Qüestionar creences, començant per les pròpies, analitzant premisses i conclusions."],["Premissa","Idea de partida que sosté una afirmació o una conclusió."]]},
+
+{id:"mini-guia-pensament-critic", m:"critic", t:"Mini-guia del pensament crític", r:"Conceptes i eines de Richard Paul i Linda Elder (Fundació per al Pensament Crític).",
+ s:[["Per què pensament crític?","Gran part del nostre pensament és arbitrari, distorsionat o prejudiciat, i la qualitat de vida depèn de la qualitat del pensament. El pensament crític el millora en apoderar-se de les seves estructures i sotmetre-les a estàndards intel·lectuals."],
+ ["Els 8 elements del pensament","Propòsit, pregunta en qüestió, informació, inferències i conclusions, conceptes, supòsits, implicacions i conseqüències, i punts de vista."],
+ ["Estàndards intel·lectuals","Claredat, exactitud, precisió, rellevància, profunditat, amplitud i lògica. Cadascun es treballa amb una pregunta: pots posar un exemple?, com es pot verificar?, pots ser més específic?, quina relació té amb la pregunta?, atén la complexitat?, es consideren altres perspectives?, les idees es recolzen entre si?"],
+ ["L’obstacle: el pensament egocèntric","Egocentrisme innat («és cert perquè ho crec»), sociocentrisme («és cert perquè ho creiem») i compliment de desitjos («és cert perquè vull creure-ho»). Superar-ho és el primer pas."],
+ ["Les 8 virtuts intel·lectuals","Humilitat, enteresa, empatia, autonomia, integritat, imparcialitat, perseverança i confiança en la raó."],
+ ["Tres tipus de preguntes","Dins d’un sistema: una resposta correcta (coneixement). Sense sistema: una opinió que no es pot avaluar. Sistemes múltiples: respostes millors o pitjors (judici)."],
+ ["Sis etapes de desenvolupament","Irreflexiu, retat, principiant, practicant, avançat i mestre. El pensament crític no és un destí, sinó un hàbit que es construeix amb pràctica conscient: aplica estàndards, millora els elements, cultiva virtuts i repeteix."]],
+ k:[["Egocentrisme","Acceptar les pròpies creences sense qüestionar-les."],["Sociocentrisme","Adoptar les creences del grup sense evidència."],["Estàndards intel·lectuals","Criteris (claredat, exactitud, lògica...) per avaluar el raonament."],["Humilitat intel·lectual","Reconèixer els límits del propi coneixement."]]},
+
+{id:"pensament-critic-pedagogia-critica", m:"critic", t:"Pensament crític i pedagogia crítica", r:"Dues corrents que no s’oposen, sinó que es complementen (Ayuste i Trilla, 2024).",
+ tb:[["","Pensament crític","Pedagogia crítica"],["Referent","John Dewey","Paulo Freire"],["Tradició","Racionalista, pragmatista i filosòfica","Marxista, teoria crítica i sociologia"],["Desenvolupa","Habilitats intel·lectuals per analitzar, argumentar i decidir","Consciència crítica davant les desigualtats i el poder"],["Es pregunta","Què és el pensament crític i com ensenyar-lo","Per a què ha de servir"],["Proposa","Estratègies, tècniques i instruments","L’educació com a eina de transformació social i justícia"]],
+ s:[["Què tenen en comú","Volen persones que pensin amb autonomia i qüestionin la realitat; uneixen reflexió i acció (experiència en Dewey, praxi en Freire); comparteixen una concepció democràtica de l’educació; i rebutgen la memorització i la transmissió passiva."],
+ ["La diferència principal","El pensament crític respon al què i al com: ensenyar a pensar correctament. La pedagogia crítica respon al per a què: identificar desigualtats i injustícies per poder-hi actuar."],
+ ["Complementarietat","Una aporta les eines per aprendre a pensar críticament; l’altra dona sentit i finalitat a aquest pensament. Combinades, formen persones que analitzen la realitat amb rigor i es comprometen a transformar-la."],
+ ["Una omissió compartida","Totes dues han prestat poca atenció a experiències europees anteriors: l’Escola Moderna de Francesc Ferrer i Guàrdia (racional, laica i igualitària) i l’Escola de Barbiana de Lorenzo Milani (educació crítica lligada a la justícia social)."]],
+ k:[["Praxi","Unió de reflexió i acció per transformar la realitat (Freire)."],["Pedagogia crítica","Corrent que posa el pensament crític al servei de la justícia social."]]},
+
+{id:"educacio-esportiva", m:"models", t:"Educació esportiva", r:"Model de Siedentop (1994) que proposa una experiència esportiva autèntica, completa i socialment significativa.",
+ s:[["Origen i per què utilitzar-lo","Va néixer de la insatisfacció de Siedentop amb un esport ensenyat de manera incompleta i d’un grup de treball amb professorat de secundària. Encaixa amb el currículum per competències gràcies al treball per rols (social i cívica, aprendre a aprendre, iniciativa), augmenta la motivació i la participació i satisfà el professorat."],
+ ["Tres objectius a llarg termini","Competència motora (participar en el joc amb habilitats i comprensió), cultura esportiva (entendre valors, regles i tradicions) i entusiasme (comprometre’s a protegir i promoure la cultura esportiva)."],
+ ["Característiques essencials","Temporades de 12 a 20 sessions (pretemporada, competició regular i fase final), equips estables, competició formal, registre de dades, esdeveniment culminant i festivitat. El professor actua com a «arquitecte de la pràctica» i els elements són guies, no receptes."],
+ ["Els rols","Tothom és jugador i, a més, assumeix una responsabilitat: entrenador, preparador físic, periodista, gestor de material, àrbitre, anotador... En dansa hi ha rols propis, com coreògraf o enginyer de so. Convé rotar els rols i explicar-los amb fulls de rol."],
+ ["Dos models de temporada","Temporada de blocs: una sola modalitat a totes les sessions. Temporada integrada: diversos cicles de pràctica autònoma, habitual en atletisme o gimnàstica, o amb esports d’estructura comuna (invasió, pista dividida)."],
+ ["Autonomia al llarg de la temporada","El professor dirigeix al principi, va delegant a la pretemporada autònoma, supervisa durant la competició regular i l’alumnat s’encarrega de presentacions i premsa a l’esdeveniment final."],
+ ["Implementació, avaluació i consells","Equips heterogenis, fitxes d’equip i fulls de rol, calendari públic. Avaluació formativa i compartida: autoavaluació, coavaluació, diaris d’equip i reflexió final. Consells: comença petit, planifica bé, escolta l’alumnat i reflexiona sobre el model."]],
+ k:[["Temporada","Unitat llarga d’entre 12 i 20 sessions amb tres fases."],["Rol","Responsabilitat organitzativa que assumeix cada alumne, a més de jugar."],["Festivitat","Rituals de l’esport (samarreta, cants, crits) que creen un entorn segur."],["Esdeveniment culminant","Finals, premis i celebració que tanquen la temporada."]]},
+
+{id:"educacio-aventura", m:"models", t:"Model d’Educació d’Aventura (MEDA)", r:"Aprenentatge experiencial per a les activitats físiques en el medi natural (AFMN).",
+ s:[["Per què i d’on ve","Les AFMN formen part del currículum d’EF a gairebé totes les comunitats autònomes i hi ha evidència de beneficis psicològics i acadèmics (Baena-Extremera, 2011, 2013, 2015). L’origen se situa cap al 1940 en Kurt Hahn, creador dels United World Colleges i de Gordonstoun. Es basa en l’aprenentatge experiencial (Dewey, 1938)."],
+ ["Modalitats","Educació d’aventura a l’aire lliure, aprenentatge experiencial, aprenentatge d’aventura en línia, educació a l’aire lliure, pedagogia de l’aventura i circuits d’alta corda."],
+ ["No negociables i passos previs","No negociables: aprenentatge experiencial, contacte amb la natura, activitats de repte i gestió de riscos. Cal una avaluació inicial del nivell (seguretat, materials, nusos, progressió) i metodologies que deixin triar el nivell de repte i promoguin la cooperació."],
+ ["Fases (Baena-Extremera, 2011)","Pas 1: autoconeixement i confiança amb el material, amb activitats pràctiques de materials i grup. Pas 2: pràctica en situacions reals i pensaments finals amb avaluació global. Les fases es poden intercalar segons el grup."],
+ ["Exemple: escalada a 1r d’ESO","Fase 1: els dos o tres suports, el con, el pont inquebrantable i l’enllaç a les nostres vides. Fase 2: recorregut tècnic, reptes en grup i resolució de problemes inesperats (la caiguda del suport, la cinta perduda, el nus)."],
+ ["Sessió i avaluació","Part inicial (objectius i escalfament), principal (activitats amb autoreflexió) i final (tornada a la calma i reflexió en grup). Avaluació formativa en tres moments (inicial, contínua i final) amb rúbriques, llistes de comprovació, diari de reflexió i coavaluació."],
+ ["La reflexió com a eix","MEDA busca alumnat competent motoralment, però també personal, emocional i socialment. La reflexió connecta l’experiència amb la vida real, i les emocions fixen l’aprenentatge amb més fermesa."]],
+ k:[["AFMN","Activitats físiques en el medi natural."],["Aprenentatge experiencial","Aprenentatge que parteix de l’experiència i continua amb reflexió, debat i anàlisi."],["Gestió de riscos","Característica no negociable del model."]]},
+
+{id:"respecte", m:"valors", t:"El respecte", r:"Respecte cap als companys, un mateix, els adversaris, l’entorn i el professorat.",
+ s:[["Cap als companys","Acceptar la diversitat, reconèixer el valor de cada persona i competir de manera sana, sense menysprear els altres i acceptant la derrota."],
+ ["Cap a un mateix","Autoconeixement del propi cos i autoestima basada en les capacitats reals; salut i benestar, amb exercici regular i prevenció de conductes de risc."],
+ ["Cap als adversaris","Joc net (respectar regles i decisions de l’àrbitre), esportivitat (valorar l’esforç de l’altre) i empatia en situacions de competició."],
+ ["Cap a l’entorn","Cura del material i de les instal·lacions, consciència ambiental i pràctiques sostenibles."],
+ ["Cap al professorat i les normes","Obediència conscient (les normes tenen objectiu pedagògic i de seguretat), comunicació assertiva i diàleg constructiu."]],
+ k:[["Esportivitat","Valorar l’esforç dels adversaris i evitar conductes antiesportives."],["Comunicació assertiva","Expressar opinions i inquietuds de manera respectuosa i constructiva."]]},
+
+{id:"cooperacio", m:"valors", t:"Cooperació i treball en equip", r:"Competències clau per a l’esport col·lectiu i per formar joves col·laboratius.",
+ s:[["Habilitats socials","Comunicació clara i respectuosa per coordinar-se, i empatia mitjançant jocs i dinàmiques col·laboratives."],
+ ["Valoració de la diversitat","Reconèixer les habilitats de cadascú i dissenyar activitats on tothom pugui participar, sigui quina sigui la capacitat física."],
+ ["Resolució de conflictes","Mediació i negociació: escoltar i buscar solucions col·lectives, i acceptar i adaptar-se als acords de l’equip."],
+ ["Rols dins l’equip","Líder (guia i motiva), coordinador (organitza la comunicació) i executor (fa tasques concretes). Es promou la rotació de rols."],
+ ["Pertinença i cohesió","Construir equip crea sentiment de pertinença, i celebrar els èxits compartits reforça que el treball conjunt val més que l’esforç individual."]],
+ k:[["Líder","Guia i motiva l’equip cap als objectius comuns."],["Coordinador","Organitza i facilita la comunicació entre membres."],["Executor","Realitza tasques específiques per assolir els objectius."],["Cohesió de grup","Sentiment de pertinença que uneix l’equip."]]},
+
+{id:"esforc", m:"valors", t:"Esforç i superació personal", r:"Valors centrals de l’EF a secundària per al creixement personal i acadèmic.",
+ s:[["Cultura de l’esforç","Acceptar el repte amb actitud positiva i mostrar persistència per millorar habilitats amb la pràctica repetida."],
+ ["Superació dels límits personals","Autoconeixement de capacitats i limitacions, fixació d’objectius realistes però ambiciosos i motivació intrínseca."],
+ ["Afrontar el fracàs","Resiliència i adaptació (errors i dificultats formen part de l’aprenentatge) i feedback constructiu immediat de companys i professorat."],
+ ["Esforç col·lectiu","Treball en equip, solidaritat per superar el desànim i un ambient cooperatiu que manté la motivació."],
+ ["Fora de l’aula","Transferència a la vida acadèmica i personal, mentalitat de creixement i aprenentatge continuat."]],
+ k:[["Resiliència","Aprendre dels errors i adaptar-se a les dificultats."],["Mentalitat de creixement","Creença que es pot millorar mitjançant l’esforç."],["Motivació intrínseca","Compromís amb els objectius de superació personal."]]},
+
+{id:"autonomia", m:"valors", t:"Autonomia i responsabilitat", r:"Formen persones que prenen decisions informades i assumeixen les seves accions.",
+ s:[["Autonomia personal","Autogestió de l’activitat (marcar objectius d’entrenament i gestionar el temps) i selecció d’activitats, que implica responsabilitzar-se de les pròpies eleccions."],
+ ["Responsabilitats individuals","Gestionar l’esforç, adaptant ritme i límits, i complir les normes de seguretat i les regles dels jocs."],
+ ["Autonomia en l’equip","Assumir un rol actiu al grup i prendre la iniciativa: organitzar jocs, liderar exercicis o proposar activitats."],
+ ["Responsabilitat en l’aprenentatge","Autoavaluar el rendiment, reflexionar sobre el progrés, planificar i fer-ne seguiment."],
+ ["Responsabilitat cap al propi cos","Cuidar la salut (dieta equilibrada, hidratació, descans, prevenció de lesions) i crear hàbits saludables que perdurin."]],
+ k:[["Autogestió","Capacitat de decidir i organitzar les pròpies activitats."],["Autoavaluació","Valorar el propi rendiment i progrés."]]},
+
+{id:"joc-net", m:"valors", t:"Joc net i justícia", r:"Principis per desenvolupar una actitud esportiva i respectuosa dins i fora de l’àmbit acadèmic.",
+ tb:[["Criteri d’avaluació","Mètode de reconeixement"],["Respecte als companys i adversaris","Premi al millor company d’equip"],["Compliment consistent de les regles","Certificat de joc net"],["Resolució pacífica de conflictes","Reconeixement a la mediació efectiva"],["Suport i inclusió dels companys","Distinció per esperit esportiu"]],
+ s:[["Què és el joc net","Competir amb honestedat i respecte, sense trampes ni avantatges deslleials. Va més enllà de complir regles: és respectar companys i adversaris. Exemple: jocs cooperatius on l’èxit depèn de la col·laboració."],
+ ["Justícia en les activitats","Equitat en la competició (regles aplicades igual a tothom), inclusió i adaptació perquè tothom tingui les mateixes oportunitats, i resolució imparcial de conflictes amb mediació, empatia i solucions constructives."],
+ ["Dins el currículum","Sessions d’educació en valors amb discussions i estudis de cas; el docent com a model; la manera d’afrontar competicions i conflictes influeix en com l’alumnat practica aquests valors."],
+ ["Impacte personal","Ètica esportiva aplicable a altres àmbits, respecte a les normes i responsabilitat social com a ciutadans."]],
+ k:[["Joc net","Competir amb honestedat i respecte, sense trampes."],["Equitat","Aplicar regles i condicions igual a tots els participants."]]},
+
+{id:"igualtat-inclusio", m:"valors", t:"Igualtat i inclusió", r:"L’EF com a espai on tothom té les mateixes oportunitats de participar i beneficiar-se’n.",
+ s:[["Igualtat de gènere","Garantir que nois i noies tinguin les mateixes oportunitats de participar i liderar, i desafiar els estereotips que influeixen en la participació i en la percepció de les habilitats."],
+ ["Diversitat funcional","Adaptar les activitats perquè siguin accessibles a tothom, també a l’alumnat amb discapacitat, i oferir suport personalitzat."],
+ ["Diversitat cultural i social","Integrar activitats de diverses cultures i fomentar la interacció i el treball en equip entre grups socials i culturals diferents."],
+ ["Igualtat d’oportunitats","Disseny inclusiu que promogui la participació equitativa i protocols per prevenir i abordar qualsevol discriminació o exclusió."],
+ ["Autoestima i confiança","Celebrar els èxits individuals i donar retroalimentació positiva perquè l’alumnat cregui en les seves habilitats."]],
+ k:[["Disseny inclusiu","Activitats pensades perquè tothom hi participi de manera equitativa."],["Diversitat funcional","Diferències de capacitat que exigeixen adaptar l’activitat."]]}
+];
+
+const GEN = {id:"models-pedagogics", m:"models", t:"Models pedagògics: generalitats", r:"Sistemes de tècniques, estratègies i mitjans d’ensenyament que busquen un aprenentatge significatiu.",
+ s:[["Què és un model pedagògic","Sistema que estableix tècniques, estratègies i mitjans d’ensenyament per aconseguir un aprenentatge significatiu, i que permet fixar criteris i seqüències d’avaluació. Tipus: tradicional, conductista, cognitivista, constructivista i conectivista."],
+ ["Model tradicional","El més antic: centrat en el mestre, que transmet el coneixement de manera jeràrquica i n’és l’autoritat. L’alumnat és receptor passiu."],
+ ["Model conductista","L’alumne també és passiu i el docent és el centre. S’aprèn amb entrenament, repetició, pràctica i exposició, i l’avaluació se centra en el resultat final, amb premis i recompenses."],
+ ["Model cognitivista","No busca acumular coneixements, sinó el desenvolupament intel·lectual. Atén el procés i el producte, amb l’alumne com a protagonista i el docent com a suport; es resolen problemes amb raonament i imaginació."],
+ ["Model constructivista","L’alumne és protagonista del seu aprenentatge i el docent orienta i planteja reptes i preguntes per resoldre problemes reals. Importen el treball col·laboratiu, els coneixements previs i el context."],
+ ["Conectivisme (Siemens, 2004)","Evolució del constructivisme: el coneixement sorgeix de les connexions entre els nodes d’una xarxa. El docent té identitat digital professional i ajuda l’alumnat a construir el seu entorn personal d’aprenentatge (PLE): buscar i filtrar informació, organitzar continguts, comunicar-se, crear-ne i publicar-ne, i col·laborar."],
+ ["Models pedagògics en l’Educació Física","Cooperatiu, educació esportiva, comprensiu, educació d’aventura, estil actitudinal, autoconstrucció de materials, gamificació, contracte didàctic, aprenentatge basat en problemes, aprenentatge servei i aprenentatge per projectes."]],
+ k:[["Model pedagògic","Sistema de tècniques, estratègies i mitjans per aconseguir un aprenentatge significatiu."],["Conductisme","Aprenentatge per repetició i recompensa, centrat en el docent."],["Constructivisme","L’alumne construeix el coneixement amb reptes i problemes reals."],["Conectivisme","El coneixement neix de la connexió entre nodes d’una xarxa."],["PLE","Entorn personal d’aprenentatge que cada estudiant construeix."]]};
+
+const NOUS = [
+{id:"tasca-motriu", m:"tasca", t:"La tasca motriu", r:"Conjunt d’accions organitzades que un practicant ha de fer per assolir un objectiu motor.",
+ s:[["Concepte","Conjunt d’accions concretes i organitzades prèviament que l’alumne o l’esportista ha de realitzar per assolir un objectiu motor específic. Famose (1981) la veu com una activitat que motiva accions motrius seguint criteris d’èxit precisos; Parlebas (1981), com un conjunt de condicions materials i obligacions que defineixen un objectiu; Sánchez Bañuelos (1986), com allò que defineix els continguts generals de la matèria. A la pràctica, és el joc, l’exercici o l’activitat que proposem a classe."],
+ ["Els 4 elements estructurals","Objectiu (la fita concreta), condicions (entorn i limitacions d’espai, temps o material), instruccions (normes que guien l’execució) i operacions (moviments i accions tècniques i tàctiques que executa el practicant)."],
+ ["Per què importa","És la cèl·lula bàsica de la programació: determina què aprèn l’alumnat, condiciona els continguts i la metodologia, i sobre ella s’estructuren les sessions, les unitats didàctiques i la programació. Ha de ser significativa: no només educa en l’àmbit motriu, també en el social i el conceptual."],
+ ["Tipus segons l’objectiu pedagògic","D’aprenentatge o tècniques (adquirir un gest), de joc o tàctiques (entendre el joc i decidir) i condicionals (potenciar força, velocitat o resistència)."]],
+ k:[["Tasca motriu","Joc, exercici o activitat amb un objectiu motor específic."],["Objectiu","Fita concreta que es busca assolir."],["Condicions","Entorn i limitacions d’espai, temps o material."],["Instruccions","Normes i regles que guien l’execució."],["Operacions","Accions tècniques i tàctiques que executa el practicant."]]},
+
+{id:"classificacions-tasques", m:"tasca", t:"Classificacions de les tasques motrius", r:"Cada tasca es pot situar a totes les classificacions alhora.",
+ tb:[["Autor","Criteri","Categories"],["Knapp (1963)","Participació cognitiva","Habituals / perceptives"],["Cratty (1982)","Participació corporal","Fines / globals"],["Singer (1986)","Control sobre l’acció","Regulació externa / autoregulació"],["Poulton (1957)","Control ambiental","Tancades / obertes"],["Delgado Noguera (1993)","Síntesi integradora","Mecanisme, factor, àrea, organització, execució i disseny"]],
+ s:[["Knapp: habituals i perceptives","Habituals: la seqüència es coneix i s’automatitza (anar en bici, córrer, nedar). Perceptives: la seqüència és desconeguda i exigeix participació cognitiva (jocs i esports d’oposició)."],
+ ["Cratty: fines i globals","Fines: treball manual de precisió (escriure, tir amb arc). Globals: el moviment implica tot el cos (desplaçaments, salts)."],
+ ["Poulton: tancades i obertes","Tancades: entorn fix i predictible, importa l’execució tècnica (salt de trampolí, servei de tennis). Obertes: entorn canviant i imprevisible, cal adaptació tàctica constant (contraatac en bàsquet, surf). Els esports col·lectius són tasques obertes."],
+ ["Singer: control sobre l’acció","Regulació externa (tasques obertes i perceptives, com els esports col·lectius), autoregulació (tancades i habituals, com la gimnàstica o l’atletisme) i regulació mixta (creuament de les classificacions de Poulton i Knapp)."],
+ ["Delgado Noguera: la síntesi","Segons el mecanisme (perceptives, de decisió, d’execució), el factor (qualitativa, quantitativa, mixta), l’àrea (motriu, social, cognoscitiva), l’organització (individual, col·lectiva), l’execució (simultània, alternativa, consecutiva) i el disseny (autoproposta, disseny extern)."]],
+ k:[["Tasca oberta","Entorn canviant i imprevisible que exigeix adaptació tàctica."],["Tasca tancada","Entorn fix i predictible; importa l’execució tècnica."],["Tasca habitual","Seqüència coneguda i automatitzada."],["Tasca perceptiva","Seqüència desconeguda que exigeix participació cognitiva."]]},
+
+{id:"mecanismes-acte-motor", m:"tasca", t:"Mecanismes de l’acte motor", r:"Percepció, decisió i execució segons Marteniuk (1971); taula adaptada de Sánchez Bañuelos (1986).",
+ tb:[["Mecanisme","Menor complexitat","Major complexitat"],["Percepció","Entorn habitual, tasca tancada, individu i objecte estàtics, pocs estímuls lents","Entorn perceptiu, tasca oberta, individu i objecte en moviment, molts estímuls ràpids i conflictius"],["Decisió","Poques decisions, propòsit únic, molt de temps, factors fixos, sense risc","Moltes decisions, propòsits múltiples, temps breu, factors variables, amb risc"],["Execució","Pocs grups musculars, moviment simple, poca exigència física","Molts grups musculars, estructura complexa, molta exigència de rapidesa, precisió i condició física"]],
+ s:[["Percepció","Fem conscient un estímul. Depèn de la capacitat perceptiva, de l’entorn, del tipus i nivell d’estímul i del tipus de control. Factors pedagògics: pràctica, atenció selectiva i anticipació perceptiva."],
+ ["Decisió","S’analitzen les dades percebudes i es tria una resposta. Depèn de la intel·ligència motriu, del nombre d’alternatives, del temps disponible, de la incertesa i del risc. El factor pedagògic és la «lògica motriu», amb conceptes de tàctica individual."],
+ ["Execució","El gest observable, la tècnica final. Té aspectes quantitatius (condició física: resistència, força, velocitat, flexibilitat) i qualitatius (coordinació, agilitat, equilibri)."],
+ ["Alerta didàctica","Sovint es practica gairebé només l’execució, tot i que la percepció i la decisió són més determinants, sobretot als esports col·lectius. A Primària interessa potenciar sobretot els dos primers mecanismes."]],
+ k:[["Percepció","Fer conscient un estímul."],["Decisió","Analitzar les dades i triar una resposta motriu."],["Execució","El gest observable que resol la tasca."],["Lògica motriu","Capacitat d’elaborar i seleccionar respostes amb tàctica individual."]]},
+
+{id:"dissenyar-tasques", m:"tasca", t:"Regular la dificultat i dissenyar tasques", r:"Quatre variables per adaptar la tasca i sis passos per dissenyar-la.",
+ s:[["Variables per regular la dificultat","Mida de l’espai (reduir-lo accelera les decisions), nombre de participants (la superioritat numèrica, com al 3 contra 1, facilita l’èxit de l’atacant), mòbils i materials (el pes o la mida canvien el ritme) i temps limitat (augmenta la pressió cognitiva)."],
+ ["Vuit principis metodològics","Individualització, socialització, progressió, participació activa, motivació, aprenentatge significatiu, varietat i transferència. La individualització vol dir conèixer característiques, edat i nivell (sociograma, proves motrius, observació); la socialització, potenciar la interacció entre l’alumnat."],
+ ["Dissenyar una tasca, pas a pas","1. Establir els continguts. 2. Definir objectius clars, mesurables i assequibles. 3. Organitzar espai, agrupament i material. 4. Donar una consigna breu i un reglament senzill que afavoreixi la participació. 5. Preparar variants per simplificar o complicar. 6. Avaluar l’assoliment i donar feedback ràpid i positiu."],
+ ["Idees clau","Tasca = objectiu + condicions + instruccions + operacions. Regular la dificultat és manipular espai, participants, material i temps. Un bon disseny és intencionat, progressiu i avaluable."]],
+ k:[["Superioritat numèrica","Més atacants que defensors, com al 3 contra 1, que facilita l’èxit."],["Sociograma","Instrument per conèixer les relacions dins del grup."]]},
+
+{id:"competencies-docents", m:"docent", t:"Competències del professorat d’EF", r:"Què significa ser un professor competent d’Educació Física.",
+ s:[["Què és una competència professional","Un repertori de comportaments que resulta de combinar coneixements, procediments i actituds coordinats: saber fer i saber estar per actuar amb eficàcia en situacions professionals. El professor competent és el que sap fer bé la seva feina (Siedentop, 2001). La formació teòrica i psicopedagògica és imprescindible, però disposar de competències docents és absolutament indispensable (Blázquez, 2013)."],
+ ["Les 6 competències per ensenyar EF (Sebastiani)","Motivar l’alumnat, planificar i programar reflexivament, exigir i avaluar amb criteri, gestionar la classe, facilitar els aprenentatges i educar en valors."],
+ ["Competències generals (Sebastiani i Delgado, 2010)","Connecta i motiva l’alumnat; s’adapta i exigeix segons la capacitat de cadascú; s’implica a l’escola; transmet sensibilitat i il·lusió; planifica reflexivament; exigeix i s’exigeix; educa en actituds i valors; avalua amb criteris definits i adaptables; coneix el seu alumnat; aconsegueix que aprengui; crea un bon clima; orienta segons les possibilitats; aporta coneixements teòrics; informa de les possibilitats de l’entorn; investiga i innova amb recursos variats; i actua de manera exemplar."],
+ ["Les 10 competències per gestionar la classe (Blázquez, 2013)","1 Dissenyar i preparar la classe. 2 Gestionar la progressió dels aprenentatges. 3 Fer un diagnòstic inicial. 4 Utilitzar mètodes adients. 5 Crear un clima de convivència i tolerància. 6 Organitzar el grup classe. 7 Utilitzar bé mitjans i recursos. 8 Comunicar-se bé. 9 Motivar per aprendre. 10 Regular i ajustar l’aprenentatge a partir dels errors."]],
+ k:[["Competència professional","Combinació de coneixements, procediments i actituds per actuar amb eficàcia."],["Avaluació inicial","Diagnòstic previ per partir del que l’alumne ja sap."]]},
+
+{id:"gestio-sessio", m:"docent", t:"La sessió d’Educació Física", r:"Del pla de classe als tres moments de la sessió (Blázquez, 2013).",
+ s:[["Dissenyar i preparar la classe","La classe és l’espai i el temps on es decideixen tots els components previsibles de la gestió didàctica. El pla (fitxa de la sessió) ha de ser coherent amb el que entenem per EF, i convé compartir-lo amb l’alumnat. El model tradicional (escalfament, part principal, tornada a la calma) rep crítiques: poca avaluació contínua, predomini de valors fisiològics i cap avaluació diagnòstica."],
+ ["Moment d’acollida","Comença quan el professor rep el grup. La calidesa de les paraules motiva; cal fer rutines integrades sense perdre massa temps, saber qui té alguna limitació, connectar amb la sessió anterior i explicar per què fem la classe."],
+ ["Moment de desenvolupament","Primer, la posada en acció: activitats generals i jugades que activen els sistemes cardiovascular, respiratori i locomotor, amb jocs ja coneguts i diagnòstic inicial. Després, el desenvolupament de les tasques: pocs exercicis ben repetits, atenció a les pauses, participació màxima i una motivació que vingui del progrés. El professor d’EF no és un simple animador de temps lliure."],
+ ["Moment final","Tornada a la calma si el treball ha estat intens (relaxació o estiraments), o xerrada de feedback. Convé una rutina: recollir el material, hàbits d’higiene i preguntes sobre què s’ha après i amb quines sensacions s’ha acabat."],
+ ["Progressió i diagnòstic","Gestionar la progressió és seleccionar i seqüenciar activitats amb espai i temps adequats, i modificar intensitat, dificultat o diversitat. L’avaluació inicial connecta el que l’alumne ja sabia amb el que ha d’assolir, base de l’aprenentatge significatiu."]],
+ k:[["Fitxa de la sessió","Pla dissenyat del que farem a classe."],["Moment d’acollida","Inici de la sessió: rebre el grup, informar i motivar."],["Progressió","Avançar seqüenciant tasques per assolir objectius i competències."]]},
+
+{id:"clima-organitzacio", m:"docent", t:"Clima de classe i organització del grup", r:"Normes, rutines, conflictes i formes d’organitzar el grup classe.",
+ tb:[["Organització","Característiques","Limitacions"],["Massiva","Tot el grup treballa alhora; el professor controla l’execució i detecta fàcilment encerts i errors","Limita les interaccions, no atén la diversitat ni l’autonomia"],["Grups petits","El grup gestiona la seva capacitat de treball; el professor és mediador","La quantitat de feina pot superar la qualitat"],["Circuits i estacions","L’alumne té autonomia i control sobre la feina","Difícil ajustar un temps igual a totes les estacions"],["Tallers","Treball autònom durant un cert temps","L’alumne ha de memoritzar la feina; pot sortir un resultat diferent del previst"],["Parelles","Treball autònom, dirigit o lliure; preval la qualitat sobre la quantitat","Sense limitacions destacades"],["Individual","Cada alumne al seu ritme i amb total autonomia","Difícil controlar la qualitat i la quantitat del treball"]],
+ s:[["Crear i mantenir un clima positiu","Les normes, les rutines i el clima social asseguren un procés educatiu integral, flexible i dinàmic que faciliti la participació i els aprenentatges significatius de tothom. Un bon ambient prevé conflictes i crea condicions òptimes per autoregular-se. L’EF és ideal per a la socialització i la inclusió."],
+ ["Conflictes a l’EF","Les sessions d’EF són l’espai amb més conflictes, perquè l’alumnat expressa amb més llibertat sentiments i actituds. Segons Hernández i Buscà (2016), el 63 % són faltes de respecte, el 15 % faltes d’organització i consens, el 12 % de tipus discriminatori a nivell cultural i el 10 % de no acceptació de les regles. Capllonch et al. (2014) assenyalen les discriminacions de gènere, d’habilitat motriu o de cultura."],
+ ["Un cas: la roba esportiva","Quan un alumne oblida la roba, una resposta raonable és no castigar-lo sense fer classe: buscar-li una funció adaptada (observador actiu, àrbitre o ajudant de material) perquè segueixi aprenent, i que la propera vegada porti l’equipació."],
+ ["Formes d’organitzar el grup","Conèixer les formes d’organització social del grup ajuda a l’èxit de la classe. Les interaccions professor-alumnes i alumnes-alumnes són difícils, però clau per a la convivència i la tolerància."]],
+ k:[["Clima de classe","Ambient de normes, rutines i relacions que facilita aprendre i conviure."],["Organització massiva","Tot el grup treballa alhora amb el mateix."],["Circuits i estacions","Treball paral·lel o successiu amb autonomia de l’alumne."]]},
+
+{id:"entrenador", m:"docent", t:"El professor i l’entrenador", r:"Quin tipus d’entrenador vols ser? Lideratge, orientació i relació amb l’equip.",
+ s:[["Quin tipus d’entrenador vols ser?","Segons el lideratge: autoritari, participatiu o permissiu. Segons l’orientació: millorar els jugadors o només el rendiment. La pregunta val per a l’escola, el món federat, l’amateur o el professional."],
+ ["Relació entrenador-jugador","Coneix personalment el jugador, respecta les diferències individuals, detecta i potencia els líders, fa reunions amb jugadors, capitans i equip, integra els nous i explica amb claredat els rols."],
+ ["Comportament de l’entrenador","Estableix objectius, regula la convivència, promou la cultura del treball, estimula la identitat d’equip, planifica la cohesió, és un exemple que transmet valors, busca solució als conflictes i deixa el protagonisme a l’equip, amb una exigència educada."],
+ ["Relació amb l’staff","Delega tasques i responsabilitats, assigna rols clars, els dona confiança davant dels jugadors i els valora públicament."],
+ ["Comunicar, motivar i adaptar","Comunicar de manera comprensible i organitzada és clau per a l’èxit docent. Motivar és optimitzar les condicions: compromís motor, autonomia i millors oportunitats malgrat el temps limitat. Adaptar és ajustar l’ensenyament als errors i a les necessitats de l’alumnat. També cal utilitzar de manera variada materials i instal·lacions."]],
+ k:[["Lideratge participatiu","Estil que comparteix decisions amb l’equip."],["Exigència educada","Exigir amb respecte i claredat."]]},
+
+{id:"pedagogia-venenosa", m:"docent", t:"Pedagogia venenosa i currículum ocult", r:"Tres conceptes de Fernández-Balboa (2004) per analitzar críticament l’ensenyament.",
+ s:[["Pedagogia venenosa","Utilitza l’abús físic o psicològic amb el pretext que és beneficiós. Les víctimes tenen poques alternatives de resistència, neguen les seves emocions i perden la personalitat, substituïda per paraules i accions imposades per l’autoritat. Es transmet de generació en generació (Miller, 1990)."],
+ ["Consciència autoritària","Resultat d’un procés didàctic de recompensa i càstig que subordina l’individu amb por i culpa, fins que esdevé un doble de l’autoritat i perd la identitat (Fromm, 1993)."],
+ ["Currículum ocult","Valors i aspectes que s’ensenyen amb normes i rutines, i també els que s’ometen de manera conscient o inconscient; per això és difícil de detectar. Afecta la manera de pensar, actuar i veure el món, i pot legitimar creences que beneficien els grups poderosos (Boler, 1999; Kirk, 1992; Apple, 1990)."],
+ ["Quin docent vols ser?","Hernández Álvarez (2014) planteja quatre perfils: tècnic, pràctic, reproductor o crític. La pregunta de fons és si volem treballar de professors o entrenadors, o volem ser-ho: un docent crític reflexiona sobre la seva pràctica per no reproduir aquestes dinàmiques."],
+ ["Per què importa","Segons Fernández-Balboa, aquestes pràctiques busquen l’obediència cega i el control de l’alumnat, van contra una formació humanista i democràtica, i poden reproduir-se quan l’alumnat es converteix en docent sense reflexió crítica."]],
+ k:[["Pedagogia venenosa","Ensenyament que usa l’abús, la por o la culpa amb el pretext que és beneficiós."],["Consciència autoritària","Subordinació de la persona mitjançant recompensa i càstig."],["Currículum ocult","Valors que s’ensenyen o s’ometen sense que es vegin."]]}
+];
+const MODELS_NOUS = [
+{id:"pedagogia-contracte", m:"models", t:"Pedagogia del contracte", r:"Un marc educatiu que transforma les relacions d’aprenentatge a través del compromís, la negociació i la responsabilitat compartida.",
+ tb:[["Tipus de contracte","Finalitat"],["Didàctic","Realitzar aprenentatges cognitius o metodològics d’una matèria, en una classe i segons un programa imposat per la institució"],["D’èxit","Que l’alumnat tingui èxit durant tot el curs; amb objectius nombrosos i variats"],["De projecte","Organitzar un projecte pràctic que ajudi a aprendre i elaborar un projecte personal de formació lligat al futur"],["De resolució de conflicte","Trobar solucions a un problema actitudinal: canvi de comportament, definició del conflicte i de les seves causes"],["Institucional","Elaborar les normes de funcionament d’una comunitat (classe, cicle, centre), negociades amb alumnat, professorat, PAS i famílies"]],
+ s:[["Definició i per què serveix","Un contracte és un document que organitza situacions d’aprenentatge o de comportament: les persones es comprometen, després d’una negociació, als acords assolits per aconseguir objectius cognitius, metodològics o de comportament. Ofereix una porta a l’èxit a l’alumnat atrapat en el fracàs escolar, manté la motivació per aprendre allò que en un marc habitual no es faria i canvia les relacions de poder a l’aula i al centre."],
+ ["Quatre principis fonamentals","1. Consentiment mutu: totes les parts accepten participar lliurement. 2. Acceptació positiva: l’alumne és acceptat tal com és, sense judicis previs. 3. Negociació: tots els elements de l’aprenentatge supervisat es negocien conjuntament. 4. Compromís recíproc: cada part compleix el pactat amb responsabilitat."],
+ ["Desenvolupament positiu i motivació","Ajuda l’alumnat a ser lliure: expressar idees i projectes, escollir, prendre decisions i accedir a nous coneixements. Pot pactar camins diferents per assolir els objectius, sense un únic camí per a tot el grup. Com a element de motivació, ha de satisfer tres necessitats: estímuls que provoquin curiositat, estructura i recolzament que donin seguretat, i reconeixement que reforci les relacions socials i l’autoestima."],
+ ["Socialització i pedagogia diferenciada","Inicia l’alumnat en l’autonomia i la responsabilitat amb una metodologia semidirectiva basada en la resolució de conflictes, que afavoreix l’empatia, el diàleg i la reformulació de propostes. A més, trenca la uniformitat del model didàctic i permet diferenciar continguts i metodologies."],
+ ["Ajut metodològic, psicopedagògic i projecte de vida","Ensenya a raonar: desenvolupa el pensament analític i sintètic, la flexibilitat, l’estructuració d’idees i l’expressió oral i escrita mitjançant la negociació i l’argumentació. Millora la relació alumne-professor, recupera l’autoestima de l’alumnat amb fracàs escolar arrelat i serveix per reflexionar sobre el projecte de vida i concretar projectes a mig termini."],
+ ["Etapes per arribar al contracte","Elements previs (objectiu, tipus, context, si és oral o escrit i si l’equip docent pot fer-ne el seguiment), exploració (raons i expectatives), formulació (l’objectiu el formula l’alumnat i ha de ser realista, avaluable i atractiu) i negociació (metodologia, mitjans i avaluació)."],
+ ["Què es negocia i quins compromisos hi ha","S’hi negocien l’organització de la metodologia, el tipus de producció final, els mitjans i ajuts, l’avaluació (qui, com, amb quins criteris, quan i on) i el termini i la difusió. Mètode: tothom proposa opcions, l’alumnat en tria una o diverses, i es planifica, s’actua i es verifica. El compromís recíproc varia segons la posició de cadascú, l’interès, l’esforç sostingut i la personalitat; es pot escriure i signar o no, però ningú no està per damunt de ningú."],
+ ["Conclusió","No és una recepta única, sinó una filosofia que posa l’alumnat al centre del seu aprenentatge i fomenta l’autonomia, la responsabilitat i el diàleg entre totes les parts."]],
+ k:[["Contracte","Document que recull els acords negociats per assolir objectius d’aprenentatge o de comportament."],["Consentiment mutu","Totes les parts accepten participar lliurement."],["Acceptació positiva","L’alumne és acceptat tal com és, sense judicis previs."],["Compromís recíproc","Cada part es compromet a complir allò pactat."],["Pedagogia diferenciada","Diferenciar continguts i metodologies trencant la uniformitat didàctica."]]},
+
+{id:"autoconstruccio-materials", m:"models", t:"Autoconstrucció de materials", r:"Transformar materials d’ús habitual o de rebuig en materials didàctics d’Educació Física.",
+ tb:[["Criteri d’avaluació (escala de Likert de 5 punts)","Què valora"],["Seguretat","Absència de perills derivats de la forma, el pes o la composició"],["Robustesa","Resistència i durabilitat del material elaborat"],["Utilitat","Adequació als objectius per als quals es va dissenyar"],["Adequació","Adaptació a les característiques dels usuaris"],["Estètica","Acabat acurat i atractiu visual del producte final"],["Laboriositat","Esforç i cura invertits en la construcció"]],
+ s:[["Per què utilitzar-lo","Alguns currículums d’EF promouen els materials no convencionals. El Decret 82/2014 d’Educació Primària del Principat d’Astúries convida a explorar més enllà dels recursos específics de l’àrea i a reutilitzar materials d’ús habitual o de rebuig, cosa que afavoreix una major igualtat d’oportunitats, el reciclatge, la reutilització i la creativitat."],
+ ["Elements a considerar","El professorat ha de conèixer tècniques bàsiques per transformar materials de rebuig en didàctics (Méndez-Giménez, 2013). L’adaptació personalitzada millora la competència, la motivació i el gaudi (Méndez-Giménez, Fernández-Río i Méndez-Alonso, 2015). Cal oferir opcions de disseny i fomentar la cerca d’informació i l’autonomia, cuidar l’estètica i la funcionalitat amb materials econòmics, i tenir els materials disponibles a classe i al pati, reparant-los quan calgui."],
+ ["Exemples","Bitlles amb ampolles de plàstic reutilitzades amb sorra o aigua; pilotes de malabars amb globus farcits d’arròs, sorra o llegums; frisbees de cartró resistent; pals d’expressió corporal de tubs de cartró o paper de diari; dianes de cartró amb puntuacions; estels de bosses de plàstic, canyes i cordills; xanques de pots resistents; i jocs d’anelles amb ampolles com a objectiu."],
+ ["Estructura de la sessió","Segons els interessos del professorat, les característiques de l’alumnat i la complexitat del material, es pot construir durant la sessió d’EF, en un projecte interdisciplinari o a casa. A classe, les aules ordinàries solen anar millor que el gimnàs. Seqüència: instruccions, construcció, revisió i pràctica; el docent revisa el material construït per garantir la seguretat."],
+ ["Passos 1 i 2: planificació i elaboració","Planificació: el docent decideix on i com es construirà, informa de recursos, passos i criteris d’avaluació, i té en compte objectius, cost i seguretat. Elaboració en tres modalitats: a la classe d’EF (treball cooperatiu i habilitats socials), a casa (amb instruccions o videotutorials, per dedicar més temps a la pràctica) o de manera interdisciplinària (amb àrees com Ciutadania, Matemàtiques i Coneixement del Medi)."],
+ ["Passos 3 i 4: comprovació i manteniment","Comprovació: garantir que el producte no presenti perills i donar instruccions clares sobre usos adequats i inadequats. Manteniment: si s’usa de manera continuada, revisar que conservi les propietats i reparar-lo abans de tornar-lo a utilitzar."],
+ ["Avaluació dels materials","L’alumnat participa en processos d’autoavaluació i coavaluació amb una escala de Likert de cinc punts que valora les sis característiques de la taula. L’objectiu és conscienciar-lo d’elaborar materials segurs, resistents, útils i atractius."],
+ ["Consideracions finals","Des d’una perspectiva constructivista, potencia la creativitat: els materials són una font d’idees per inventar jocs. Permet practicar activitat física d’una certa intensitat en espais reduïts, a l’escola i a casa; garanteix l’accés de tot l’alumnat amb cartró, brics o ampolles; afavoreix l’educació ambiental amb el reciclatge de residus, sobretot plàstics i PVC; i es pot difondre amb videotutorials, trobades escolars o competicions."]],
+ k:[["Autoconstrucció","Transformar materials d’ús habitual o de rebuig en materials didàctics."],["Escala de Likert","Escala de cinc punts per valorar els materials construïts."],["Coavaluació","L’alumnat valora el treball dels companys."],["Videotutorial","Recurs per construir el material a casa seguint instruccions."]]}
+];
+const EXTRA = [
+{id:"aprenentatge-cooperatiu", m:"models", t:"Aprenentatge cooperatiu", r:"Aprendre amb, dels i gràcies als altres: professorat i alumnat com a coaprenents (Fernández-Río, 2014).",
+ tb:[["Element essencial","Idea clau"],["Interdependència positiva","«Jo et necessito i tu em necessites»: tots hi guanyem, ningú hi perd"],["Responsabilitat individual","Cada membre és responsable d’una part del treball"],["Interacció promotora","Ens ajudem els uns als altres amb suport i estratègies"],["Processament grupal","Avaluem allò que fem i com funciona el grup"],["Habilitats interpersonals","Escoltar, respectar torns, resoldre conflictes i animar"],["Participació equitativa","Tothom té dret a participar; ningú és prescindible"],["Igualtat d’oportunitats d’èxit","Progressar respecte d’un mateix, no ser millor que els altres"]],
+ s:[["Per què a l’Educació Física","Molts confonen l’EF amb l’esport competitiu, però es pot treballar colze a colze per a objectius comuns, on guanyar o perdre passa a un segon pla. La societat fomenta la competència però demana col·laboració, i l’EF hi aporta un element únic: la motricitat. Cal «cooperativitzar» les classes."],
+ ["Quatre perspectives que el sostenen","Motivacional (l’èxit individual depèn del grup), cohesió social (confiança, respecte i ajuda mútua), cognitiva (compartir idees enriqueix els processos mentals) i del desenvolupament (la zona de desenvolupament proper de Vygotski: amb ajuda s’arriba més lluny)."],
+ ["Cooperar no és només treballar en grup","La col·laboració no requereix un objectiu compartit; la cooperació sí. I el treball en grup no implica per si sol interdependència positiva ni participació equitativa."],
+ ["Fase 1: creació i cohesió del grup","Imprescindible: sense cohesió no hi ha aprenentatge cooperatiu (Kagan, 2003; Pujolàs, 2008). Quatre subfases no estrictament lineals: presentació («el llançament del nom»), trencaglaç («embolic de colors»), confiança («jo t’agafo») i autoconeixement («guia’m», amb els ulls tapats)."],
+ ["Fases 2 i 3: de tècniques simples a complexes","Cicle de l’aprenentatge cooperatiu (Fernández-Río, 2017). Fase 2, la cooperació com a contingut: resultat col·lectiu, joc cooperatiu, desafiament i canvi. Fase 3, la cooperació com a recurs: pensa-comparteix-actua, caps numerats junts, grups d’aprenentatge, puzle i invenció de jocs. Els grups base ideals són de 4 membres, estables i heterogenis. Un error freqüent és començar per les tècniques complexes."],
+ ["La sessió i l’avaluació","Tres moments: inici (objectius motrius i de valors), durant (reforçar conductes cooperatives) i final (reflexió sobre el funcionament del grup). Si la metodologia és cooperativa, l’avaluació també: autoavaluació registrada, coavaluació intragrupal o intergrupal i heteroavaluació del docent."]],
+ k:[["Interdependència positiva","L’èxit de cadascú depèn de l’èxit del grup."],["Processament grupal","Reflexió del grup sobre el seu propi funcionament."],["ZDP","Zona de desenvolupament proper: allò que s’assoleix amb l’ajuda dels altres (Vygotski)."],["Grup base","Grup estable i heterogeni de 4 membres."]]},
+
+{id:"gamificacio", m:"models", t:"Gamificació", r:"Un model pedagògic emergent que utilitza elements del joc per desenvolupar continguts curriculars.",
+ tb:[["Nivell (Werbach i Hunter, 2012)","Què inclou"],["Dinàmiques","Narrativa, emocions, progressió i relacions socials"],["Mecàniques","Recompenses, regles, competició, cooperació i feedback"],["Components","Avatars, emblemes, assoliments, missions, nivells, punts i taulers"]],
+ s:[["Per què renovar l’EF","Part de la pràctica continua amb enfocaments del segle XX: predomini del rendiment, metodologies directives i avaluació sumativa (Tinning, 1996). Part de l’alumnat de secundària percep l’EF allunyada dels seus interessos (Ntoumanis, 2001), mentre l’EF hauria d’ajudar a reduir el sedentarisme (Gasol Foundation, 2019)."],
+ ["Què és","Utilitzar elements i tècniques de disseny de jocs en contextos que no són jocs (Werbach i Hunter, 2012). Kapp (2012) hi afegeix mecàniques, estètica i pensament de joc per motivar i resoldre problemes. En educació és un model emergent que va més enllà de la simple diversió (Fernández-Río i Flores, 2019). El terme gamify neix als anys vuitanta i el seu ús modern es data el 2003."],
+ ["Compte amb la pseudogamificació","Apareix quan l’experiència es redueix a activitats breus, competitivitat excessiva, recompenses i classificacions sense objectius didàctics clars (Pérez-Pueyo i Hortigüela-Alcalá, 2020). Cal evitar l’ús exclusiu de PET: punts, emblemes i taula."],
+ ["Dues fases inseparables (Blázquez i Flores, 2020)","Fase didàctica, el nucli: anàlisi del grup, objectius exigents amb diferents nivells, continguts i avaluació formativa. Fase gamificada, l’embolcall motivacional: narrativa, equips, missions, reptes, recompenses i classificacions. La didàctica té prioritat: la finalitat és aprendre més i millor."],
+ ["Elements clau de la fase gamificada","Narrativa lligada al currículum (Fortnite, Stranger Things, Star Wars); equips heterogenis de 4 amb perfils de jugador (recollidors, exploradors, assassins i socialitzadors) i avatars; missions i reptes progressius que equilibren dificultat i competència (teoria del flux, Csikszentmihalyi, 1990); i recompenses com punts, insígnies o diplomes."],
+ ["Implementació i avaluació","Estètica i escenografia (Canva, Piktochart), escuts i avatars de grup, taulers i mapes, comunicació contínua (Moodle, blogs, ClassDojo) i control de la competitivitat, sense exposar classificacions. Avaluació formativa gairebé a totes les sessions, amb autoavaluació, coavaluació i heteroavaluació, rúbriques i portafolis."],
+ ["Recomanacions","Forma’t abans d’aplicar-la, juga a molts jocs, comença amb microgamificacions (sales d’escapament, adaptacions de jocs de taula), adapta narratives publicades i dona retroalimentació constant sense sobredesenvolupar la motivació extrínseca."]],
+ k:[["Gamificació","Ús d’elements de joc en contextos que no són jocs."],["Pseudogamificació","Gamificació reduïda a punts i classificacions sense objectius didàctics."],["PET","Punts, emblemes i taula: components que no s’han d’usar sols."],["Teoria del flux","Estat òptim quan la dificultat del repte s’equilibra amb la competència."],["Narrativa","Història atractiva lligada al currículum que embolcalla l’experiència."]]},
+
+{id:"aprenentatge-servei", m:"models", t:"Aprenentatge-servei (ApS)", r:"Un model activista, reflexiu i experiencial que vincula l’aprenentatge curricular amb el servei a la comunitat.",
+ tb:[["Modalitat","En què consisteix"],["Servei directe","L’alumnat i el col·lectiu receptor interactuen directament en tallers, xerrades o classes d’EF"],["Servei indirecte","Es creen recursos o programes d’activitat física per a col·lectius vulnerats, sense contacte directe"],["Recerca","Fer accessible informació d’EF (estils de vida saludables, nutrició) a qui no hi té accés"],["Denúncia","Campanyes de sensibilització sobre injustícies com el sexisme, la xenofòbia o la discriminació esportiva"],["eApS","Modalitat remota o semiremota amb videoconferències i entorns virtuals (Malvey et al., 2006)"]],
+ s:[["Definició","Convida l’alumnat a descobrir, interpretar i transformar la realitat vinculant l’aprenentatge curricular amb el servei a la comunitat (Chiva-Bartoll, 2018). No és voluntariat ni pràctica comunitària aïllada: és la integració intencional i sinèrgica de currículum i servei. El lema: aprendre servint."],
+ ["Fonaments","Aprenentatge experiencial (Dewey, 1938) i el cicle de Kolb (1984): experiència concreta, observació reflexiva, conceptualització abstracta i experimentació activa. Pensament reflexiu (Schön, 1987), aprenentatge transformatiu (Mezirow, 1978) i pedagogia crítica (Freire). El terme es fa servir des del 1967."],
+ ["Quatre dimensions d’aprenentatge","Aprenentatges curriculars d’EF, desenvolupament de l’empatia, interpretació crítica de les injustícies socials i reconstrucció identitària amb nous valors i actituds (Butin, 2005; Chiva-Bartoll et al., 2020)."],
+ ["Elements essencials","Connexió curricular sòlida, veu de la comunitat en totes les fases, reciprocitat entre agents, relació efectiva entre escola i societat, reflexió continuada i pensament crític i presa de decisions de l’alumnat."],
+ ["Passos","1. Preparació i diagnòstic: interessos, capacitats i objectius vinculats al currículum. 2. Planificació i execució del servei amb la comunitat en contextos reals. 3. Avaluació, reconeixement i celebració pública del treball i de la transformació social generada."],
+ ["Avaluació sistèmica","Model de De la Orden i Jornet (2012): eficàcia (portafolis, qüestionaris i rúbriques), eficiència (diaris de seguiment del procés) i funcionalitat (entrevistes i grups de discussió per veure si respon a les expectatives de la comunitat)."]],
+ k:[["Aprendre servint","Lema de l’ApS: aprenentatge i servei units."],["Reciprocitat","Tots els agents implicats hi aporten i en reben alguna cosa."],["Cicle de Kolb","Experiència, observació reflexiva, conceptualització i experimentació activa."],["Servei indirecte","Crear recursos per a un col·lectiu sense contacte directe."]]},
+
+{id:"abp-projectes-reptes", m:"models", t:"Projectes, problemes i reptes", r:"Tres metodologies actives que sovint es confonen.",
+ tb:[["","Aprenentatge per projectes","Aprenentatge basat en problemes","Aprenentatge basat en reptes"],["Aprenentatge","Es construeix fent una tasca concreta i s’aplica al projecte","S’adquireix de manera autodirigida per resoldre el problema","Es treballa amb experts i la comunitat sobre problemàtiques reals"],["Enfocament","Situació rellevant i predefinida que demana una solució","Situació rellevant i sovint fictícia; no cal una solució real","Situació rellevant i oberta que demana una solució real"],["Producte","Un producte, una presentació o l’execució de la solució","Importa més el procés que el producte","Una solució que es concreti en una acció"],["Rol del professor","Facilitador i administrador de projectes","Guia, tutor o consultor","Coach, coinvestigador i dissenyador"]],
+ s:[["Com triar","Si volem un producte final, projectes; si volem treballar el raonament, problemes; si volem una acció real a la comunitat, reptes. Totes tres posen l’alumnat al centre i el docent com a guia."]],
+ k:[["ABP","Aprenentatge basat en projectes o en problemes, segons el context."],["Repte","Problemàtica real i oberta que acaba en una acció concreta."]]},
+
+{id:"valors-esport", m:"valors", t:"Els valors de l’esport", r:"Una perspectiva sociològica de Klaus Heinemann (Universitat d’Hamburg).",
+ s:[["La tesi: l’esport no té valors","Segons Heinemann, l’esport, entès com una forma reglamentada de tractar el cos, no té valors en si mateix. Els valors són judicis subjectius que fan les persones a partir dels efectes que hi obtenen o que en esperen, o bé efectes que hi atribueixen institucions com clubs, gimnasos, l’Estat, les escoles o les empreses."],
+ ["Què espera la gent de l’esport","Salut i condició física, benestar, diversió, vida social i integració, bellesa i confiança, i prestigi. Però són opinions agregades: no sempre sabem si responen a efectes reals, a desitjos o a missatges dels mitjans."],
+ ["Els valors són variables","Depenen de qui practica i en quines condicions: no valora igual l’esport una persona gran que una de jove, qui va al gimnàs que qui és en un club, o un professional que un esportista de lleure. També canvien segons el país i l’època."],
+ ["Quatre àmbits d’anàlisi","La persona, el mercat (valor econòmic), les institucions (sobretot els clubs) i l’Estat, que justifica l’«esport per a tothom» connectant-lo amb la salut, la joventut i la integració social."],
+ ["Què en traiem a l’EF","Els valors no apareixen sols pel fet de fer esport: el docent els ha de treballar de manera intencionada. Per això els sis valors d’aquest mòdul necessiten estratègies concretes a la sessió."]],
+ k:[["Atribució de valor","Judici que una persona o institució fa sobre l’esport."],["Esport per a tothom","Política que promou l’accés general a l’esport."]]},
+
+{id:"aps-inclusio", m:"practica", t:"Fitxa: jocs adaptats per a tothom (ApS)", r:"Una tasca d’aprenentatge-servei per treballar l’empatia i la comprensió de la diversitat.",
+ tb:[["Camp","Contingut"],["Tasca","Aprenentatge-servei"],["Valors","L’empatia i la comprensió de la diversitat"],["Temps","10 minuts"],["Espai","Pista de bàsquet"],["Material","2 pilotes i pitralls"]],
+ s:[["Objectius","Vincular l’aprenentatge d’habilitats motrius amb una necessitat real de l’entorn, fomentant l’empatia, la reflexió crítica i el compromís cívic, i promoure la inclusió adaptant col·lectivament jocs perquè siguin accessibles a tothom."],
+ ["Contextualització","Sessió del bloc d’ApS dins del macrocicle trimestral. Seguim el cicle experiencial: primer ens posem a la pell d’un col·lectiu jugant amb restriccions (ulls tapats, mobilitat reduïda, sense poder parlar) per fer un diagnòstic real; després adaptem jocs clàssics per portar-los a un col·lectiu vulnerat."],
+ ["Instruccions","Per grups, experimentem una barrera jugant amb restriccions. Cada equip fa de dissenyador i crea i prova a la pista una proposta alternativa que elimini l’exclusió. Posem en comú els jocs i tanquem amb un debat sobre com oferir el recurs a una entitat o escola del barri."],
+ ["Variant","L’alumnat fabrica materials alternatius o guies de jocs inclusius per a escoles o col·lectius sense recursos, i acaba amb un debat sobre el paper transformador de l’EF."],
+ ["Connexió amb el temari","Aplica les fases de l’ApS (diagnòstic, planificació i servei), el cicle de Kolb i el valor de la igualtat i la inclusió."]],
+ k:[["Diagnòstic vivencial","Conèixer una barrera experimentant-la en primera persona."]]},
+
+{id:"competencies-a-la-pista", m:"practica", t:"Competències docents a la pista", r:"Cinc competències de Sebastiani i Delgado (2010) amb exemples positius i negatius.",
+ tb:[["Competència","Exemple","Valoració"],["Connecta i motiva","En voleibol, un equip perd clarament. El professor els xoca la mà, destaca una bona combinació i els proposa guanyar els cinc minuts següents","Positiu"],["Planifica i programa","El professor arriba sense preparar la sessió i improvisa un partit de futbol sense objectius, amb alumnes avorrits a la banqueta","Negatiu"],["Crea un bon clima","En acroesport, estableix normes de seguretat i respecte, prohibeix les burles davant les caigudes i fomenta la cooperació","Positiu"],["Coneix l’alumnat","Obliga tot el grup a fer una prova de resistència intensa sense saber que un alumne és asmàtic","Negatiu"],["Investiga i innova","Per treballar salts i coordinació, dissenya un circuit d’aventura «bosc flotant» amb matalassos, cercles i cons","Positiu"]],
+ s:[["Normes de convivència com a docent","1. Cap discriminació per gènere, habilitat motriu, cultura o condició física; el respecte és innegociable. 2. Puntualitat i roba adequada; si algú l’oblida, no se’l castiga sense classe: fa d’observador actiu, àrbitre o ajudant de material. 3. Proactivitat: no cal ser el millor, però sí mostrar interès i actitud positiva."]]},
+
+{id:"tres-organitzacions", m:"practica", t:"Una tasca, tres organitzacions", r:"Millorar la passada amb l’interior del peu i el primer toc en futbol.",
+ tb:[["Organització","Proposta","Avantatge"],["Massiva","Tothom condueix per mig camp; al senyal «Canvi!» cada alumne passa a un company lliure, controla orientat i continua","El docent veu tot el grup alhora i corregeix mentre la resta treballa"],["Circuit per estacions","1: passada i paret superant cons. 2: rondo 3 contra 1. 3: passada mitjana amb control orientat cap a un costat","Més autonomia i varietat, amb superioritat numèrica al rondo"],["Parelles","Passada amb el dret i control amb l’esquerre; passada en desplaçament lateral; passada a l’espai al desmarcatge","Preval la qualitat i el docent pot atendre cada parella"]],
+ s:[["Objectiu","Millorar la qualitat de la passada amb l’interior del peu i la fluïdesa del primer toc per donar continuïtat al joc."],
+ ["Què hi apliquem","La tasca motriu com a objectiu + condicions + instruccions + operacions, la regulació de la dificultat amb el nombre de participants (3 contra 1) i les formes d’organitzar el grup classe."]]}
+];
+TEMAS.unshift(GEN); TEMAS.push(...NOUS, ...MODELS_NOUS, ...EXTRA);
+TEMAS.sort((a, b) => MODULS.findIndex(x => x[0] === a.m) - MODULS.findIndex(x => x[0] === b.m));
+/* ===== FI DEL TEMARI ===== */
+
+/* ===== DADES DE LA WEB ===== */
+const INFO = {autors: ["Martí Talamino", "Hugo Prieto"], contacte: ""};
+const BIBLIO = ["Ayuste González, A., i Trilla Bernet, J. (2024). Pensamiento crítico y pedagogía crítica: coincidencias y complementariedades. Revista de Educación, 406, 329–351. https://doi.org/10.4438/1988-592X-RE-2024-406-647",
+  "Cratty, B. J. (1982). Desarrollo perceptual y motor en los niños.",
+  "Delgado Noguera, M. Á. (1993). Los estilos de enseñanza en la educación física.",
+  "Famose, J. P. (1981; 1992). Cognición y prestación motriz.",
+  "Giménez, F. J., i Sáenz-López, P. (1999). Aspectos teóricos y metodológicos de la iniciación deportiva.",
+  "Knapp, B. (1963). Skill in sport.",
+  "Marteniuk, R. G. (1971; 1976). Information processing in motor skills.",
+  "Parlebas, P. (1981). Contribution à un lexique commenté en science de l’action motrice.",
+  "Sánchez Bañuelos, F. (1986). Bases para una didáctica de la educación física y el deporte.",
+  "Singer, R. N. (1986). El aprendizaje de las acciones motrices en el deporte.",
+  "Sosa, P., i Oliver, J. F. (2019). La tarea motriz.",
+  "Blázquez, D. (2013). Diez competencias docentes para ser mejor profesor de educación física. INDE.",
+  "Blázquez, D., i Flores, G. (2020). Gamificación en la educación física: un enfoque práctico. INDE.",
+  "Chiva-Bartoll, O., Capella-Peris, C., i Salvador-García, C. (2020). Service-learning in physical education teacher education. Journal of Education for Teaching, 46(3), 395–407.",
+  "Csikszentmihalyi, M. (1990). Flow: The psychology of optimal experience. Harper & Row.",
+  "Dewey, J. (1938). Experience and education. Macmillan.",
+  "Fernández-Balboa, J. M. (2004). Pedagogía venenosa, conciencia autoritaria y currículum oculto.",
+  "Fernández-Río, J. (2014). El aprendizaje cooperativo en educación física.",
+  "Fernández-Río, J., i Flores, G. (2019). Gamificación en educación física: conceptos, elementos y directrices para su aplicación. EmásF, 58, 55–70.",
+  "Freire, P. (2015). Pedagogía del oprimido. Siglo XXI.",
+  "Heinemann, K. Els valors de l’esport. Una perspectiva sociològica. Educació Física i Esports, 64, 17–25.",
+  "Kolb, D. A. (1984). Experiential learning. Prentice-Hall.",
+  "Paul, R., i Elder, L. La mini-guía para el pensamiento crítico: conceptos y herramientas. Foundation for Critical Thinking.",
+  "Sebastiani, E. (2014). El perfil competencial del professorat d’educació física.",
+  "Siedentop, D. (1994). Sport education: Quality PE through positive sport experiences. Human Kinetics.",
+  "Siemens, G. (2004). Connectivism: A learning theory for the digital age.",
+  "Werbach, K., i Hunter, D. (2012). For the win. Wharton Digital Press.",
+  "Zabala, A. (1995). La práctica educativa: cómo enseñar. Graó."];
+const ENLACES = [
+  {titulo: "Ayuste i Trilla (2024): article a la Revista de Educación", url: "https://doi.org/10.4438/1988-592X-RE-2024-406-647", consulta: ""},
+  {titulo: "Outdoor PE Activities: base de dades d’articles sobre AFMN", url: "http://www.outdoorpeactivities.com", consulta: ""},
+  {titulo: "The Foundation for Critical Thinking (Paul i Elder)", url: "https://www.criticalthinking.org/", consulta: ""},
+  {titulo: "Revista Retos: nuevas tendencias en educación física, deporte y recreación", url: "https://revistaretos.org/", consulta: ""},
+  {titulo: "Apunts. Educació Física i Esports (revista on es va publicar l’article de Heinemann)", url: "https://revista-apunts.com/", consulta: ""},
+  {titulo: "Centre Promotor d’Aprenentatge Servei", url: "https://www.aprenentatgeservei.cat/", consulta: ""},
+  {titulo: "Gasol Foundation: estudi PASOS sobre activitat física i obesitat infantil", url: "https://gasolfoundation.org/", consulta: ""},
+  {titulo: "UNESCO: educació", url: "https://www.unesco.org/en/education", consulta: ""},
+  {titulo: "TecnoCampus", url: "https://www.tecnocampus.cat/", consulta: ""}
+];
+ENLACES.forEach(e => { if (!e.consulta) e.consulta = "24/11/2026"; });
+const MATERIALS = ["Educació, pedagogia i didàctica: conceptes, diferències i relacions","Introducció al pensament crític","La mini-guia per al pensament crític (Paul i Elder)","Pensament crític i pedagogia crítica: coincidències, diferències i complementarietats","Models pedagògics: generalitats","La teoria de la tasca","Principis de les competències docents (parts 1 i 2)","Model d’Educació Esportiva","Model d’Educació d’Aventura","Model d’aprenentatge cooperatiu","Gamificació en l’educació física","Aprenentatge-servei en educació física","Pedagogia del contracte","Model d’autoconstrucció de materials","Els valors de l’esport: una perspectiva sociològica (Klaus Heinemann)","Els valors en l’Educació Física: el respecte; la cooperació i el treball en equip; l’esforç i la superació personal; l’autonomia i la responsabilitat; el joc net i la justícia; la igualtat i la inclusió"];
+
+
+const $ = s => document.querySelector(s);
+let done = {}, theme = null, current = null;
+try { done = JSON.parse(localStorage.getItem("ped-done") || "{}"); } catch (e) {}
+try { theme = localStorage.getItem("ped-theme"); } catch (e) {}
+if (theme) document.documentElement.dataset.theme = theme;
+const isDark = () => document.documentElement.dataset.theme === "dark" || (!document.documentElement.dataset.theme && matchMedia("(prefers-color-scheme:dark)").matches);
+const save = () => { try { localStorage.setItem("ped-done", JSON.stringify(done)); } catch (e) {} };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const vacio = t => `<div class="empty">${t}</div>`;
+const MC = Object.fromEntries(MODULS.map(([id, n, d, c], i) => [id, {n, d, c, i}]));
+const sty = m => `--c:${m ? MC[m].c : "#1D4F91"}`;
+
+/* Línies de pista (mitja pista de bàsquet) per a la capçalera i les targetes */
+const COURT = `<svg class="lines" viewBox="0 0 800 300" preserveAspectRatio="xMaxYMid slice" fill="none" aria-hidden="true"><g stroke="#ffffff" stroke-opacity=".22" stroke-width="3"><rect x="430" y="20" width="360" height="260"/><line x1="610" y1="20" x2="610" y2="280"/><circle cx="610" cy="150" r="46"/><rect x="700" y="95" width="90" height="110"/><path d="M700 95a55 55 0 0 0 0 110"/><path d="M790 40a150 150 0 0 0 0 220"/></g><g stroke="#F5C518" stroke-opacity=".7" stroke-width="4"><line x1="0" y1="286" x2="800" y2="286"/></g></svg>`;
+/* ===== IL·LUSTRACIONS (dibuixos propis en SVG) ===== */
+const ico = p => `<svg viewBox="0 0 120 120" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
+const ICON = {
+  fonaments: ico(`<path d="M60 34c-12-8-28-9-40-6v58c12-3 28-2 40 6 12-8 28-9 40-6V28c-12-3-28-2-40 6z"/><line x1="60" y1="34" x2="60" y2="92"/>`),
+  models: ico(`<rect x="20" y="68" width="36" height="28" rx="5"/><rect x="64" y="68" width="36" height="28" rx="5"/><rect x="42" y="32" width="36" height="28" rx="5"/>`),
+  critic: ico(`<path d="M44 78c-9-7-14-17-14-28a30 30 0 0 1 60 0c0 11-5 21-14 28v8H44z"/><line x1="47" y1="98" x2="73" y2="98"/><path d="M52 44a8 8 0 1 1 11 7c-2 1-3 3-3 6"/><circle cx="60" cy="66" r="1"/>`),
+  tasca: ico(`<path d="M28 96 44 36h8l16 60z"/><line x1="22" y1="96" x2="74" y2="96"/><circle cx="90" cy="78" r="16"/><path d="M74 78h32M90 62c-7 7-7 25 0 32"/>`),
+  docent: ico(`<rect x="22" y="24" width="48" height="70" rx="6"/><line x1="32" y1="44" x2="60" y2="44"/><line x1="32" y1="58" x2="60" y2="58"/><line x1="32" y1="72" x2="52" y2="72"/><circle cx="88" cy="80" r="12"/><path d="M88 68h14v10"/>`),
+  valors: ico(`<circle cx="38" cy="32" r="10"/><circle cx="82" cy="32" r="10"/><path d="M38 50v44M82 50v44M38 64c8 8 36 8 44 0"/>`),
+  practica: ico(`<rect x="16" y="26" width="88" height="68" rx="4"/><line x1="60" y1="26" x2="60" y2="94"/><path d="M28 42l12 12M40 42 28 54"/><circle cx="84" cy="72" r="7"/><path d="M42 62c10 16 26 18 34 10" stroke-dasharray="5 7"/>`)
+};
+/* Figura humana senzilla: x,y = espatlles; o.up = braços amunt; o.run = cames en carrera; o.reach = braç dret estirat */
+const fig = (x, y, s, shirt, skin, hair, o = {}) => `<g transform="translate(${x} ${y}) scale(${o.flip ? -s : s} ${s})" stroke-linecap="round">
+<line x1="-6" y1="28" x2="${o.run ? -16 : -8}" y2="54" stroke="#16253A" stroke-width="8"/><line x1="6" y1="28" x2="${o.run ? 15 : 8}" y2="54" stroke="#16253A" stroke-width="8"/>
+<line x1="-11" y1="6" x2="${o.up ? -19 : -17}" y2="${o.up ? -16 : 24}" stroke="${skin}" stroke-width="6"/><line x1="11" y1="6" x2="${o.up ? 19 : o.reach ? 30 : 17}" y2="${o.up ? -16 : o.reach ? 4 : 24}" stroke="${skin}" stroke-width="6"/>
+<rect x="-13" y="-1" width="26" height="33" rx="9" fill="${shirt}"/><circle cx="0" cy="-13" r="10" fill="${skin}"/><path d="M-10.5 -14a10.5 10.5 0 0 1 21 0c-4-3-9-4-21 0z" fill="${hair}"/></g>`;
+const BALL = (x, y, r) => `<g transform="translate(${x} ${y})"><circle r="${r}" fill="#F08A24"/><path d="M${-r} 0h${2 * r}M0 ${-r}c${-r * .6} ${r * .5} ${-r * .6} ${r * 1.5} 0 ${2 * r}M0 ${-r}c${r * .6} ${r * .5} ${r * .6} ${r * 1.5} 0 ${2 * r}" stroke="#7A3A0B" stroke-width="1.6" fill="none"/></g>`;
+const CONE = x => `<path d="M${x - 9} 238 ${x - 3} 216h6l6 22z" fill="#F97316"/><rect x="${x - 12}" y="236" width="24" height="5" rx="2" fill="#C2410C"/>`;
+const SCENE = `<figure class="art"><svg viewBox="0 0 400 270" role="img" aria-labelledby="sc-t"><title id="sc-t">Il·lustració d’una classe d’Educació Física: una docent amb carpeta i xiulet observa dos alumnes que es passen la pilota entre cons</title>
+<ellipse cx="200" cy="246" rx="196" ry="20" fill="#0E3566"/><path d="M60 246a140 20 0 0 1 280 0" fill="none" stroke="#F5C518" stroke-width="3" opacity=".8"/>
+${CONE(150)}${CONE(205)}${CONE(260)}
+${fig(72, 138, 1.45, "#F5C518", "#E0A47A", "#3B2416", {reach: true})}
+<rect x="104" y="140" width="22" height="30" rx="3" fill="#fff"/><line x1="109" y1="149" x2="121" y2="149" stroke="#1D4F91" stroke-width="2"/><line x1="109" y1="156" x2="121" y2="156" stroke="#1D4F91" stroke-width="2"/><line x1="109" y1="163" x2="117" y2="163" stroke="#1D4F91" stroke-width="2"/>
+<path d="M66 140q6 10 6 16" stroke="#fff" stroke-width="1.5" fill="none"/><circle cx="72" cy="158" r="3.5" fill="#D9DEE5"/>
+${fig(205, 142, 1.25, "#FFFFFF", "#8D5A3B", "#1B1B1B", {run: true, reach: true})}
+${fig(330, 128, 1.25, "#E5484D", "#F1C7A2", "#C7772F", {up: true})}
+<path d="M248 140Q290 70 322 102" fill="none" stroke="#fff" stroke-width="2.5" stroke-dasharray="4 7" opacity=".85"/>${BALL(292, 86, 11)}
+</svg></figure>`;
+const AVATAR = (skin, hair, shirt, long) => `<svg viewBox="0 0 84 84" role="presentation" aria-hidden="true"><circle cx="42" cy="42" r="42" fill="#ffffff26"/><path d="M12 84c2-18 14-26 30-26s28 8 30 26z" fill="${shirt}"/><rect x="36" y="44" width="12" height="16" rx="5" fill="${skin}"/><circle cx="42" cy="34" r="16" fill="${skin}"/><path d="M26 32c0-12 8-18 16-18s16 6 16 18c-5-6-12-8-16-8s-11 2-16 8z" fill="${hair}"/>${long ? `<path d="M26 32v10c-2-2-3-6-3-10zM58 32v10c2-2 3-6 3-10z" fill="${hair}"/>` : ""}</svg>`;
+
+/* Escenes per als temes: fons del color del mòdul, terra a y=196 */
+const [S1, S2, S3, S4] = ["#F1C7A2", "#E0A47A", "#8D5A3B", "#5C3A24"], [H1, H2, H3, H4] = ["#2A1A10", "#C7772F", "#1B1B1B", "#E3C16F"];
+const FT = `font-family="Archivo,Arial,sans-serif" font-weight="700"`;
+const cone = (x, y) => `<path d="M${x - 8} ${y}l5-20h6l5 20z" fill="#F97316"/><rect x="${x - 11}" y="${y - 2}" width="22" height="5" rx="2" fill="#C2410C"/>`;
+const bubble = (x, y, w, tx, ty, txt, fs = 16) => `<path d="M${x + 10} ${y}h${w - 20}a10 10 0 0 1 10 10v26a10 10 0 0 1-10 10H${tx + 8}L${tx} ${ty}l-2-${ty - y - 46}H${x + 10}a10 10 0 0 1-10-10V${y + 10}a10 10 0 0 1 10-10z" fill="#fff"/><text x="${x + w / 2}" y="${y + 29}" text-anchor="middle" font-size="${fs}" fill="#122033" ${FT}>${txt}</text>`;
+const bottle = (x, yb, s = 1) => `<g transform="translate(${x} ${yb}) scale(${s})"><rect x="-6" y="-28" width="12" height="28" rx="4" fill="#BFE3FF"/><rect x="-2.5" y="-37" width="5" height="10" fill="#BFE3FF"/><rect x="-3" y="-41" width="6" height="5" rx="1" fill="#E5484D"/><rect x="-6" y="-18" width="12" height="6" fill="#ffffff" opacity=".7"/></g>`;
+const scene = (alt, cap, inner) => `<figure class="scene"><svg viewBox="0 0 400 220" role="img" aria-label="${esc(alt)}"><rect width="400" height="220" style="fill:var(--c)"/><circle cx="200" cy="196" r="70" fill="none" stroke="#fff" stroke-opacity=".12" stroke-width="3"/><rect y="196" width="400" height="24" fill="#000" fill-opacity=".2"/><line x1="0" y1="196" x2="400" y2="196" stroke="#F5C518" stroke-width="3"/>${inner}</svg><figcaption>${cap}</figcaption></figure>`;
+const SC = {
+  pissarra: () => scene("Una docent assenyala una pissarra amb les preguntes per què i com davant de tres alumnes", "A l’aula: la pedagogia pregunta per què; la didàctica, com.",
+    `<rect x="150" y="28" width="200" height="96" rx="6" fill="#1F3A33" stroke="#C9A36A" stroke-width="5"/><text x="170" y="66" font-size="21" fill="#fff" ${FT}>Per què?</text><text x="262" y="106" font-size="21" fill="#F5C518" ${FT}>Com?</text><path d="M240 64q22 10 10 30" stroke="#fff" stroke-width="2" fill="none" stroke-dasharray="3 5"/>` +
+    fig(105, 134, 1.15, "#F5C518", S2, H1, {reach: true}) + fig(205, 148, .85, "#fff", S3, H3) + fig(265, 148, .85, "#E5484D", S1, H2) + fig(325, 148, .85, "#22C55E", S4, H3)),
+  debat: () => scene("Dues persones conversen: una pregunta per què ho creus i l’altra proposa revisar les premisses", "Pensar críticament: revisar les premisses, també les pròpies.",
+    bubble(30, 22, 160, 112, 96, "Per què ho creus?") + bubble(214, 34, 166, 286, 104, "Revisem les premisses", 14.5) +
+    fig(120, 134, 1.15, "#fff", S1, H2, {reach: true}) + fig(280, 134, 1.15, "#F5C518", S3, H3, {reach: true, flip: true})),
+  cons: () => scene("Un alumne condueix la pilota en zig-zag entre cons cap a una porteria", "Una tasca motriu: objectiu (marcar), condicions (cons i espai), instruccions (zig-zag) i operacions (conducció i xut).",
+    `<rect x="330" y="140" width="56" height="56" fill="none" stroke="#fff" stroke-width="4"/><path d="M344 140v56M358 140v56M372 140v56M330 158h56M330 176h56" stroke="#fff" stroke-opacity=".35" stroke-width="1.5"/>` + cone(185, 196) + cone(250, 196) +
+    `<path d="M136 188Q160 150 185 170T250 170T325 172" fill="none" stroke="#fff" stroke-width="2.5" stroke-dasharray="4 7"/>` + fig(95, 134, 1.15, "#fff", S3, H3, {run: true}) + BALL(128, 188, 8)),
+  rotllana: () => scene("La docent parla amb el grup reunit al seu voltant a l’inici de la sessió", "Moment d’acollida: el grup es reuneix, sap què farà i per què.",
+    fig(95, 153, .8, "#fff", S1, H4) + fig(150, 146, .8, "#22C55E", S4, H3) + fig(250, 146, .8, "#E5484D", S2, H2) + fig(305, 153, .8, "#fff", S3, H1) +
+    fig(200, 134, 1.15, "#F5C518", S2, H1) + bubble(222, 26, 150, 214, 98, "Avui: passades!", 15)),
+  festa: () => scene("Quatre jugadors celebren amb els braços enlaire al costat d’un trofeu", "L’esdeveniment culminant tanca la temporada amb festa i premis.",
+    `<rect x="178" y="168" width="44" height="28" rx="3" fill="#7A5A12"/><rect x="195" y="146" width="10" height="24" fill="#F5C518"/><path d="M180 112h40v14a20 20 0 0 1-40 0z" fill="#F5C518"/><path d="M180 116h-10a10 10 0 0 0 12 16M220 116h10a10 10 0 0 1-12 16" fill="none" stroke="#F5C518" stroke-width="4"/>` +
+    [[40, 30, "#F5C518"], [90, 60, "#fff"], [330, 40, "#E5484D"], [370, 80, "#F5C518"], [250, 30, "#fff"], [140, 25, "#E5484D"]].map(([x, y, c]) => `<rect x="${x}" y="${y}" width="7" height="12" rx="2" fill="${c}" transform="rotate(25 ${x} ${y})"/>`).join("") +
+    fig(60, 142, 1, "#fff", S4, H1, {up: true}) + fig(120, 136, 1.1, "#fff", S1, H2, {up: true}) + fig(280, 136, 1.1, "#fff", S3, H3, {up: true}) + fig(340, 142, 1, "#fff", S2, H4, {up: true})),
+  escalada: () => scene("Una alumna escala un rocòdrom mentre un company l’assegura amb la corda", "Escalada: confiança en el material i en el company que assegura.",
+    `<rect x="250" y="8" width="112" height="188" fill="#C9A36A"/>` + [[262, 30, "#E5484D"], [300, 46, "#22C55E"], [338, 28, "#1D4F91"], [272, 90, "#F5C518"], [330, 104, "#E5484D"], [286, 150, "#1D4F91"], [342, 164, "#22C55E"], [318, 66, "#F5C518"]].map(([x, y, c]) => `<circle cx="${x}" cy="${y}" r="6" fill="${c}"/>`).join("") +
+    `<circle cx="305" cy="14" r="4" fill="#16253A"/>` + fig(300, 74, 1, "#E5484D", S1, H2, {up: true}) + fig(165, 134, 1.15, "#fff", S3, H3, {reach: true}) +
+    `<path d="M305 14L301 104M305 14L200 139" stroke="#F5C518" stroke-width="2.5" fill="none"/>`),
+  pilota: () => scene("Quatre alumnes aixequen junts una pilota gegant", "Interdependència positiva: la pilota només puja si tothom col·labora.",
+    fig(110, 137, 1.1, "#fff", S1, H2, {up: true}) + fig(170, 137, 1.1, "#F5C518", S3, H3, {up: true}) + fig(230, 137, 1.1, "#E5484D", S2, H1, {up: true}) + fig(290, 137, 1.1, "#22C55E", S4, H4, {up: true}) +
+    `<circle cx="200" cy="80" r="40" fill="#F5C518"/><path d="M160 80h80M200 40c-16 14-16 66 0 80M200 40c16 14 16 66 0 80" stroke="#B4870A" stroke-width="3" fill="none"/>`),
+  mapa: () => scene("Mapa de joc amb un camí de nivells; un avatar avança cap a l’estrella final", "Missions i nivells: la narrativa embolcalla els reptes didàctics.",
+    `<path d="M40 172C100 120 140 196 200 140S300 96 360 60" fill="none" stroke="#fff" stroke-width="4" stroke-dasharray="2 10" stroke-linecap="round"/>` +
+    [[40, 172, 1], [125, 158, 2], [200, 140, 3], [282, 106, 4]].map(([x, y, n]) => `<circle cx="${x}" cy="${y}" r="15" fill="#fff"/><text x="${x}" y="${y + 6}" text-anchor="middle" font-size="16" fill="#122033" ${FT}>${n}</text>`).join("") +
+    `<path d="M360 38l7 14 15 2-11 10 3 15-14-7-14 7 3-15-11-10 15-2z" fill="#F5C518"/>` + fig(200, 84, .8, "#F5C518", S2, H1, {up: true}) +
+    `<text x="236" y="70" font-size="15" fill="#F5C518" ${FT}>+10 XP</text><path d="M28 24h40v20l-20 12-20-12z" fill="#fff" fill-opacity=".9"/><text x="48" y="42" text-anchor="middle" font-size="13" fill="#122033" ${FT}>XP</text>`),
+  guia: () => scene("Un alumne guia un company amb els ulls tapats; al fons, una escola del barri", "Diagnòstic vivencial: posar-se a la pell de l’altre abans de fer el servei.",
+    `<rect x="282" y="96" width="100" height="100" fill="#fff" fill-opacity=".92"/><path d="M272 100l60-42 60 42z" fill="#fff"/><rect x="320" y="150" width="24" height="46" fill="#1D4F91"/><rect x="294" y="112" width="20" height="18" fill="#BFE3FF"/><rect x="350" y="112" width="20" height="18" fill="#BFE3FF"/><text x="332" y="90" text-anchor="middle" font-size="12" fill="#122033" ${FT}>ESCOLA</text>` +
+    fig(150, 134, 1.15, "#fff", S3, H3, {reach: true}) + fig(196, 134, 1.15, "#F5C518", S1, H2) + `<rect x="183" y="113" width="26" height="7" rx="2" fill="#16253A"/>`),
+  cadira: () => scene("Un jugador en cadira de rodes passa la pilota a una companya", "Inclusió: adaptar l’activitat perquè tothom hi participi i hi destaqui.",
+    `<circle cx="140" cy="174" r="21" fill="none" stroke="#16253A" stroke-width="5"/><circle cx="178" cy="190" r="6" fill="#16253A"/><path d="M126 156h44l8 32M128 156l-6-32" stroke="#16253A" stroke-width="5" fill="none" stroke-linecap="round"/>` +
+    `<path d="M150 158h22v26" stroke="#16253A" stroke-width="8" fill="none" stroke-linecap="round"/><rect x="127" y="120" width="26" height="38" rx="9" fill="#fff"/><line x1="150" y1="128" x2="176" y2="108" stroke="${S2}" stroke-width="6" stroke-linecap="round"/><circle cx="140" cy="106" r="11" fill="${S2}"/><path d="M129 105a11 11 0 0 1 22 0c-5-3-10-4-22 0z" fill="${H1}"/>` +
+    `<path d="M182 102Q240 24 292 104" fill="none" stroke="#fff" stroke-width="2.5" stroke-dasharray="4 7"/>` + BALL(238, 60, 10) + fig(300, 134, 1.15, "#E5484D", S4, H3, {up: true})),
+  encaixada: () => scene("Dos jugadors es donen la mà davant l’àrbitre", "Joc net: respectar l’adversari i les decisions de l’àrbitre.",
+    fig(200, 140, .78, "#111827", S2, H3) + `<rect x="194" y="150" width="12" height="3" fill="#fff"/><rect x="194" y="158" width="12" height="3" fill="#fff"/>` +
+    fig(160, 134, 1.15, "#fff", S1, H2, {reach: true}) + fig(240, 134, 1.15, "#E5484D", S3, H3, {reach: true, flip: true}) + `<circle cx="200" cy="139" r="6" fill="${S2}"/>`),
+  bitlles: () => scene("Un alumne fa rodar una pilota cap a unes bitlles fetes amb ampolles reutilitzades", "Material autoconstruït: bitlles amb ampolles de plàstic i una mica de sorra.",
+    bottle(312, 188, .9) + bottle(332, 188, .9) + bottle(352, 188, .9) + bottle(302, 196) + bottle(322, 196) + bottle(342, 196) + bottle(362, 196) +
+    fig(100, 134, 1.15, "#F5C518", S2, H1, {reach: true}) + `<path d="M160 186h22M166 178h14" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity=".7"/>` + BALL(200, 186, 9)),
+  pissarra_tactica: () => scene("Un entrenador explica la tàctica en una pissarra a dos jugadors", "L’entrenador explica la tàctica: comunicació clara i rols ben definits.",
+    `<path d="M250 120l-14 76M330 120l14 76" stroke="#C9A36A" stroke-width="5"/><rect x="226" y="34" width="128" height="88" rx="4" fill="#fff" stroke="#16253A" stroke-width="3"/><rect x="236" y="44" width="108" height="68" fill="none" stroke="#1D4F91" stroke-width="2"/><line x1="290" y1="44" x2="290" y2="112" stroke="#1D4F91" stroke-width="2"/>` +
+    `<path d="M252 60l8 8M260 60l-8 8M266 88l8 8M274 88l-8 8" stroke="#E5484D" stroke-width="3"/><circle cx="312" cy="66" r="5" fill="none" stroke="#1D4F91" stroke-width="3"/><circle cx="324" cy="94" r="5" fill="none" stroke="#1D4F91" stroke-width="3"/><path d="M262 72q16 20 40-2" fill="none" stroke="#122033" stroke-width="2" stroke-dasharray="3 4"/>` +
+    fig(90, 140, 1, "#fff", S3, H3) + fig(142, 146, .9, "#E5484D", S1, H4) + fig(196, 134, 1.15, "#F5C518", S2, H1, {reach: true}))
+};
+const SCENES = {"educacio-pedagogia-didactica": "pissarra", "introduccio-pensament-critic": "debat", "tasca-motriu": "cons", "gestio-sessio": "rotllana", "educacio-esportiva": "festa", "educacio-aventura": "escalada", "aprenentatge-cooperatiu": "pilota", "cooperacio": "pilota", "gamificacio": "mapa", "aprenentatge-servei": "guia", "aps-inclusio": "guia", "igualtat-inclusio": "cadira", "joc-net": "encaixada", "respecte": "encaixada", "autoconstruccio-materials": "bitlles", "entrenador": "pissarra_tactica"};
+
+const courtHead = (eyebrow, t, l, extra = "", art = "") => `<header class="court${art ? " has-art" : ""}">${COURT}<div><span class="eyebrow">${eyebrow}</span><h2>${t}</h2><p>${l}</p>${extra}</div>${art}</header>`;
+const thead = (eyebrow, t, l, m) => `<header class="thead"><div><span class="eyebrow"><i></i>${eyebrow}</span><h2>${t}</h2><p>${l}</p></div>${m && ICON[m] ? `<div class="ticon">${ICON[m]}</div>` : ""}</header>`;
+
+const PAGT = {inici: "Inici", repte: "Posa’t a prova", glossari: "Glossari", autors: "Qui som", ajuda: "Ajuda", bibliografia: "Bibliografia i webgrafia"};
+const pagBtns = (...ids) => ids.map(i => `<button type="button" data-id="${i}" aria-current="${i === current}"><span>${PAGT[i]}</span></button>`).join("");
+const btn = t => `<button type="button" data-id="${t.id}" style="${sty(t.m)}" class="${done[t.id] ? "done" : ""}" aria-current="${t.id === current}"><span class="tick"></span><span>${esc(t.t)}</span></button>`;
+const tbl = r => r ? `<div class="tw"><table><thead><tr>${r[0].map(c => `<th scope="col">${esc(c)}</th>`).join("")}</tr></thead><tbody>` + r.slice(1).map(x => `<tr>${x.map((c, i) => i ? `<td>${esc(c)}</td>` : `<th scope="row">${esc(c)}</th>`).join("")}</tr>`).join("") + `</tbody></table></div>` : "";
+
+/* ===== ESQUEMES ===== */
+const dg = (title, body, cap) => `<section class="dg" aria-label="${esc(title)}"><h3>${esc(title)}</h3>${body}${cap ? `<p class="cap">${cap}</p>` : ""}</section>`;
+const flow = (items, cyc) => `<div class="flow${cyc ? " cyc" : ""}">` + items.map(([b, s], i) => (i ? `<span class="ar" aria-hidden="true">→</span>` : "") + `<div class="st"><b>${b}</b>${s ? `<small>${s}</small>` : ""}</div>`).join("") + `</div>`;
+
+const TASKS = [
+  ["Servei de tennis", "Habitual", "Tancada", "Autoregulació", "Global"],
+  ["Contraatac de bàsquet", "Perceptiva", "Oberta", "Regulació externa", "Global"],
+  ["Llançament de pes", "Habitual", "Tancada", "Autoregulació", "Global"],
+  ["Partit de futbol", "Perceptiva", "Oberta", "Regulació externa", "Global"],
+  ["Esquí de fons", "Habitual", "Oberta", "Mixta", "Global"],
+  ["Golf", "Perceptiva", "Tancada", "Mixta", "Global"],
+  ["Billar", "Perceptiva", "Tancada", "Mixta", "Fina"],
+  ["Tir amb arc", "Habitual", "Tancada", "Autoregulació", "Fina"]
+];
+let taskSel = 1;
+const taskTool = () => { const t = TASKS[taskSel];
+  return `<div class="tool"><div class="chips" role="group" aria-label="Tria una tasca">${TASKS.map((x, i) => `<button type="button" class="tg-ex" data-task="${i}" aria-pressed="${i === taskSel}">${x[0]}</button>`).join("")}</div>
+  <div class="axes" aria-live="polite"><div><small>Knapp · cognició</small><b>${t[1]}</b></div><div><small>Poulton · entorn</small><b>${t[2]}</b></div><div><small>Singer · control</small><b>${t[3]}</b></div><div><small>Cratty · cos</small><b>${t[4]}</b></div></div></div>`; };
+
+const VARS = [
+  ["Espai", ["Ampli", "Mitjà", "Reduït"]],
+  ["Participants", ["3 contra 1", "Igualtat", "1 contra 2"]],
+  ["Material", ["Pilota gran i lenta", "Reglamentària", "Petita i ràpida"]],
+  ["Temps", ["Sense límit", "Normal", "Molt limitat"]]
+];
+let varSel = [1, 1, 1, 1];
+const diffTool = () => { const s = varSel.reduce((a, v) => a + v - 1, 0), pct = (s + 4) / 8 * 100;
+  const v = s <= -3 ? "Molt fàcil: ideal per a la iniciació." : s <= -1 ? "Fàcil: l’alumnat té temps i espai per decidir." : s === 0 ? "Dificultat estàndard." : s <= 2 ? "Difícil: més pressió per percebre i decidir." : "Molt difícil: a prop de l’alt rendiment.";
+  return `<div class="tool">${VARS.map(([n, o], i) => `<div class="seg"><span>${n}</span><div class="o" role="group" aria-label="${n}">${o.map((x, j) => `<button type="button" data-var="${i}" data-val="${j}" aria-pressed="${varSel[i] === j}">${x}</button>`).join("")}</div></div>`).join("")}
+  <div><div class="meter" role="img" aria-label="Dificultat ${s + 4} de 8"><i style="left:${pct}%"></i></div><div class="mlab"><span>Més fàcil</span><span>Més difícil</span></div></div><p class="verdict" aria-live="polite">${v}</p></div>`; };
+
+const DIAG = {
+  "educacio-pedagogia-didactica": () => dg("Tres conceptes, una seqüència", `<div class="trio"><div><b>Educació</b><span class="q">Què és?</span><small>El fenomen: procés intencional, permanent i social.</small></div><div class="mid"><b>Pedagogia</b><span class="q">Per què i per a què?</span><small>La ciència que n’analitza finalitats i valors.</small></div><div><b>Didàctica</b><span class="q">Com?</span><small>La concreció a l’aula: continguts, mètodes i avaluació.</small></div></div><div class="ctx"><span>Context formal: escola, institut</span><span>No formal: clubs, extraescolars</span><span>Informal: família, amics, mitjans</span></div>`, "Exemple: si volem una ciutadania sostenible, la pedagogia justifica per què i la didàctica ho concreta amb un hort escolar o un projecte d’ApS."),
+  "models-pedagogics": () => dg("Del docent al centre a l’alumne al centre", `<div class="spec"><div><b>Tradicional</b>Transmissió jeràrquica</div><div><b>Conductista</b>Repetició i recompensa</div><div><b>Cognitivista</b>Desenvolupament intel·lectual</div><div><b>Constructivista</b>Reptes i problemes reals</div><div><b>Conectivisme</b>Xarxes i PLE</div></div><div class="axis"><span>Alumne passiu</span><span>Alumne protagonista</span></div>`),
+  "mini-guia-pensament-critic": () => dg("Les sis etapes del pensador crític", `<div class="stairs">${["Irreflexiu", "Retat", "Principiant", "Practicant", "Avançat", "Mestre"].map((x, i) => `<div style="height:${30 + i * 14}%">${x}</div>`).join("")}</div>`, "Es puja amb pràctica: aplicar estàndards, millorar els elements del pensament i cultivar les virtuts intel·lectuals."),
+  "pensament-critic-pedagogia-critica": () => dg("Dues corrents que es necessiten", `<div class="trio"><div><b>Pensament crític</b><span class="q">El què i el com</span><small>Dewey. Eines per pensar amb rigor.</small></div><div class="mid"><b>Comparteixen</b><span class="q">Punt de trobada</span><small>Autonomia, reflexió + acció i educació democràtica.</small></div><div><b>Pedagogia crítica</b><span class="q">El per a què</span><small>Freire. Transformar la societat.</small></div></div>`),
+  "tasca-motriu": () => dg("L’equació de la tasca", `<div class="eq"><span>Objectiu</span><em>+</em><span>Condicions</span><em>+</em><span>Instruccions</span><em>+</em><span>Operacions</span><em>=</em><strong>Tasca motriu</strong></div><div style="margin-top:16px" class="nest">Programació d’EF<div class="nest">Unitat didàctica / situació d’aprenentatge<div class="nest">Sessió<div class="core">Tasca motriu: la cèl·lula bàsica</div></div></div></div>`),
+  "classificacions-tasques": () => dg("Classifica una tasca", taskTool(), "Tria una tasca: la mateixa activitat rep una etiqueta a cada classificació."),
+  "mecanismes-acte-motor": () => dg("L’acte motor (Marteniuk, 1971)", flow([["Percepció", "Faig conscient un estímul: veig on és el defensor."], ["Decisió", "Analitzo i trio: passo o llanço?"], ["Execució", "El gest que es veu: la passada."]], true), "El feedback de l’execució torna a la percepció. A Primària convé potenciar sobretot percepció i decisió."),
+  "dissenyar-tasques": () => dg("Regula la dificultat", diffTool(), "Canvia les quatre variables i mira com varia la dificultat de la tasca."),
+  "competencies-docents": () => dg("Les 6 competències per ensenyar EF (Sebastiani)", `<div class="hex">${["Motivar l’alumnat", "Planificar i programar", "Exigir i avaluar amb criteri", "Gestionar la classe", "Facilitar els aprenentatges", "Educar en valors"].map((x, i) => `<div><small>Competència ${i + 1}</small>${x}</div>`).join("")}</div>`),
+  "gestio-sessio": () => dg("Els tres moments de la sessió", flow([["Acollida", "Rebre el grup, informar, motivar i connectar amb la sessió anterior."], ["Desenvolupament", "Posada en acció i tasques: màxima participació i progrés."], ["Final", "Tornada a la calma, feedback i rutines."]]), "Són moments sempre presents però canviants, no fases rígides (Blázquez, 2013)."),
+  "clima-organitzacio": () => dg("D’on vénen els conflictes a l’EF", `<div class="bars">${[["Faltes de respecte", 63], ["Organització i consens", 15], ["Discriminació cultural", 12], ["No acceptar les regles", 10]].map(([n, v]) => `<div class="row"><span>${n}</span><div class="tr"><i style="width:${v}%"></i><span>${v} %</span></div></div>`).join("")}</div>`, "Font: Hernández i Buscà (2016)."),
+  "educacio-esportiva": () => dg("Una temporada d’Educació Esportiva", `<div class="season">${[["Pretemporada dirigida", "El professor modela rols i habilitats.", 20], ["Pretemporada autònoma", "Els preparadors dirigeixen l’escalfament.", 45], ["Competició regular", "L’alumnat arbitra, puntua i organitza.", 75], ["Esdeveniment final", "Finals, premis i festa.", 95]].map(([b, s, l]) => `<div><b>${b}</b><div class="lv" title="Autonomia ${l} %"><i style="width:${l}%"></i></div>${s}</div>`).join("")}</div>`, "La barra mostra com creix l’autonomia de l’alumnat al llarg de les 12 a 20 sessions."),
+  "educacio-aventura": () => dg("Fases del MEDA (Baena-Extremera, 2011)", flow([["Autoconeixement", "Confiança amb el cos, el grup i el material."], ["Situacions reals", "Escalada i problemes inesperats."], ["Reflexió final", "Avaluació global i connexió amb la vida."]])),
+  "aprenentatge-cooperatiu": () => dg("El cicle de l’aprenentatge cooperatiu (Fernández-Río, 2017)", flow([["Fase 1 · Cohesió", "Presentació, trencaglaç, confiança i autoconeixement."], ["Fase 2 · Tècniques simples", "La cooperació com a contingut."], ["Fase 3 · Tècniques complexes", "La cooperació com a recurs per aprendre."]]), "Un error freqüent és saltar directament a la fase 3."),
+  "gamificacio": () => dg("Els elements del joc (Werbach i Hunter, 2012)", `<div class="pyr"><div><b>Dinàmiques</b>Narrativa, emocions, progressió</div><div><b>Mecàniques</b>Regles, reptes, cooperació, feedback</div><div><b>Components</b>Punts, insígnies, avatars, nivells, taulers</div></div>`, "De més abstracte (dalt) a més tangible (baix). Els components sols, sense dinàmiques, són pseudogamificació."),
+  "aprenentatge-servei": () => dg("El cicle de Kolb dins l’ApS", flow([["Experiència concreta", "Vivim la necessitat real."], ["Observació reflexiva", "Diagnòstic i objectius."], ["Conceptualització", "Ho connectem amb el currículum."], ["Experimentació activa", "Fem el servei a la comunitat."]], true)),
+  "pedagogia-contracte": () => dg("Etapes fins al contracte", flow([["Elements previs", "Objectiu, tipus i context."], ["Exploració", "Raons i expectatives."], ["Formulació", "Objectiu realista i avaluable."], ["Negociació", "Metodologia, mitjans i avaluació."]])),
+  "autoconstruccio-materials": () => dg("Quatre passos per construir material", flow([["Planificació", "On, com, cost i seguretat."], ["Elaboració", "A classe, a casa o interdisciplinària."], ["Comprovació", "Que no presenti perills."], ["Manteniment", "Revisar i reparar."]])),
+  "valors-esport": () => dg("Qui atribueix valors a l’esport? (Heinemann)", `<div class="hub"><div class="col"><div><b>La persona</b>Salut, diversió, vida social.</div><div><b>El mercat</b>Valor econòmic de l’esport.</div></div><div class="ctr">L’esport no té valors propis</div><div class="col"><div><b>Les institucions</b>Clubs, gimnasos i escoles.</div><div><b>L’Estat</b>Salut, joventut i integració.</div></div></div>`)
+};
+
+/* ===== PÀGINES ===== */
+const PERFILS = [
+  {nom: "Martí Talamino", foto: "", mail: "mtalaminoc@edu.tecnocampus.cat", av: ["#F1C7A2", "#5A3A22", "#ffffff"], c: "#1D4F91", badge: "Perfil professional", esp: "Pedagog esportiu especialitzat en pensament crític i metodologies actives",
+   text: "Vol dedicar-se a formar docents i entrenadors en autonomia intel·lectual (CCT5) i en models pedagògics participatius, com l’aprenentatge cooperatiu, per deixar enrere el currículum ocult i la consciència autoritària a l’aula.",
+   tags: ["Pensament crític", "Pedagogia crítica i inclusiva", "Aprenentatge cooperatiu"]},
+  {nom: "Hugo Prieto", foto: "data:image/jpeg;base64,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", mail: "hprietoa@edu.tecnocampus.cat", av: ["#E0A47A", "#2A1A10", "#ffffff"], c: "#A16207", badge: "Perfil professional", esp: "Didacta de l’EF i assessor d’entrenadors",
+   text: "Vol especialitzar-se en el disseny de sessions per moments d’aprenentatge, la gestió del clima i dels conflictes i l’assessorament de cossos tècnics amb una «exigència educada» que posi la formació integral de l’esportista al centre.",
+   tags: ["Disseny i gestió didàctica", "Lideratge esportiu humanista", "Aprenentatge-servei"]}
+];
+const QUIZ = [
+ ["Quina disciplina respon al «per què» i al «per a què» de l’educació?", ["La didàctica", "La pedagogia", "L’educació informal"], 1, "La pedagogia analitza les finalitats i els valors; la didàctica respon al com.", "educacio-pedagogia-didactica"],
+ ["Un club esportiu de barri és un context educatiu…", ["Formal", "No formal", "Informal"], 1, "Té intencionalitat educativa però no forma part del sistema reglat.", "educacio-pedagogia-didactica"],
+ ["Segons Ayuste i Trilla (2024), el pensament crític i la pedagogia crítica són…", ["Oposats", "Complementaris", "La mateixa cosa"], 1, "Un aporta les eines (el com) i l’altra el sentit social (el per a què).", "pensament-critic-pedagogia-critica"],
+ ["«És cert perquè ho creiem» descriu…", ["El sociocentrisme", "L’egocentrisme innat", "La humilitat intel·lectual"], 0, "Adoptar les creences del grup sense evidència és sociocentrisme.", "mini-guia-pensament-critic"],
+ ["Quins són els 4 elements d’una tasca motriu?", ["Escalfament, part principal, tornada a la calma i avaluació", "Objectiu, condicions, instruccions i operacions", "Percepció, decisió, execució i feedback"], 1, "Són els components estructurals que el docent ha de definir.", "tasca-motriu"],
+ ["Un contraatac de bàsquet, segons Poulton, és una tasca…", ["Tancada", "Oberta", "Habitual"], 1, "L’entorn és canviant i imprevisible: cal adaptació tàctica constant.", "classificacions-tasques"],
+ ["Per facilitar l’èxit de l’atacant en una tasca, què podem fer?", ["Reduir el temps disponible", "Crear superioritat numèrica, com un 3 contra 1", "Reduir l’espai"], 1, "Reduir temps o espai augmenta la dificultat; la superioritat numèrica la redueix.", "dissenyar-tasques"],
+ ["Quina durada recomana l’Educació Esportiva per a una temporada?", ["3 a 5 sessions", "12 a 20 sessions", "Tot el curs sense fases"], 1, "L’alumnat necessita temps per aprendre els rols i treballar en equip.", "educacio-esportiva"],
+ ["Què és la pseudogamificació?", ["Gamificar sense pantalles", "Reduir l’experiència a punts i classificacions sense objectius didàctics", "Una narrativa massa llarga"], 1, "La fase didàctica sempre ha de tenir prioritat sobre la gamificada.", "gamificacio"],
+ ["«Jo et necessito i tu em necessites» resumeix…", ["La interdependència positiva", "La responsabilitat individual", "El processament grupal"], 0, "És el primer dels set elements essencials de l’aprenentatge cooperatiu.", "aprenentatge-cooperatiu"],
+ ["Què diferencia l’ApS del voluntariat?", ["Que és obligatori", "La integració intencional del currículum i el servei", "Que es fa fora de l’escola"], 1, "L’ApS vincula de manera sinèrgica aprenentatge curricular i servei a la comunitat.", "aprenentatge-servei"],
+ ["Segons Heinemann, l’esport…", ["Té valors propis i universals", "No té valors en si mateix: li’ls atribueixen persones i institucions", "Només té valor econòmic"], 1, "Els valors són judicis subjectius sobre els efectes que s’obtenen o s’esperen.", "valors-esport"],
+ ["Quin percentatge de conflictes a l’EF són faltes de respecte (Hernández i Buscà, 2016)?", ["15 %", "63 %", "10 %"], 1, "Després vénen les faltes d’organització (15 %), la discriminació cultural (12 %) i la no acceptació de regles (10 %).", "clima-organitzacio"],
+ ["La consciència autoritària s’origina en…", ["Dinàmiques de recompensa i càstig que subordinen amb por i culpa", "Un excés d’autonomia de l’alumnat", "La negociació d’un contracte"], 0, "Fernández-Balboa (2004), a partir de Fromm.", "pedagogia-venenosa"]
+];
+let quizAns = {};
+const sec = (h, p) => `<section class="b"><h3>${h}</h3>${p}</section>`;
+
+const PAGS = {
+  inici: () => {
+    const nk = TEMAS.reduce((a, t) => a + (t.k ? t.k.length : 0), 0), nd = TEMAS.filter(t => DIAG[t.id]).length;
+    return courtHead("Pedagogia i principis didàctics de l’AFE", "El temari, a pista", "Els conceptes del curs organitzats per mòduls, amb esquemes, eines interactives i preguntes per comprovar què has après.",
+      `<div class="score"><span><b>${MODULS.length}</b>mòduls</span><span><b>${TEMAS.length}</b>temes</span><span><b>${nd}</b>esquemes</span><span><b>${nk}</b>conceptes clau</span><span><b>${QUIZ.length}</b>preguntes</span></div>`, SCENE) +
+      `<div class="mods">` + MODULS.map(([id, n, d, c], i) => `<article class="mc" style="--c:${c}"><header>${ICON[id]}<span class="no">Mòdul ${i + 1}</span><h3>${esc(n)}</h3></header><p>${esc(d)}</p><ul>` + TEMAS.filter(t => t.m === id).map(t => `<li><button type="button" data-go="${t.id}">${esc(t.t)}</button></li>`).join("") + `</ul></article>`).join("") + `</div>`;
+  },
+  repte: () => {
+    const ok = Object.entries(quizAns).filter(([i, a]) => QUIZ[i][2] === a).length, n = Object.keys(quizAns).length;
+    return thead("Autoavaluació", "Posa’t a prova", `${QUIZ.length} preguntes de tot el temari, amb correcció immediata.`) +
+      `<div class="blocks">` + sec(`Marcador: ${ok} encerts de ${n} respostes`, `<p>${n === QUIZ.length ? (ok >= QUIZ.length * .8 ? "Molt bé: domines el temari." : "Repassa els temes enllaçats a les preguntes fallades i torna-ho a provar.") : "Respon totes les preguntes per veure el resultat final."}</p>${n ? `<button type="button" class="btn" id="qz-reset">Torna a començar</button>` : ""}`) +
+      QUIZ.map(([q, o, c, e, t], i) => { const a = quizAns[i], r = a !== undefined, tema = TEMAS.find(x => x.id === t);
+        return `<section class="b qz" style="${tema ? sty(tema.m) : ""}"><h3>${i + 1}. ${esc(q)}</h3><div class="qo">${o.map((x, j) => `<button type="button" class="opt${r && j === c ? " good" : ""}${r && j === a && a !== c ? " bad" : ""}" data-q="${i}" data-o="${j}" ${r ? "disabled" : ""}>${esc(x)}</button>`).join("")}</div>${r ? `<p class="fbk" role="status"><b>${a === c ? "Correcte." : "No és correcte."}</b> ${esc(e)} ${tema ? `<button type="button" class="lnk" data-go="${t}">Repassa: ${esc(tema.t)}</button>` : ""}</p>` : ""}</section>`; }).join("") + `</div>`;
+  },
+  glossari: () => {
+    const l = TEMAS.flatMap(t => (t.k || []).map(([a, b]) => ({a, b, tema: t.t}))).sort((x, y) => x.a.localeCompare(y.a, "ca"));
+    const L = [...new Set(l.map(c => c.a[0].toUpperCase()))];
+    return thead("Referència", "Glossari", "Tots els conceptes clau del temari, per ordre alfabètic.") +
+      `<nav class="az" aria-label="Lletres">${L.map(x => `<a href="#g-${x}" data-letter="${x}">${x}</a>`).join("")}</nav><div class="b"><dl>` +
+      l.map((c, i) => `<dt${i === 0 || l[i - 1].a[0].toUpperCase() !== c.a[0].toUpperCase() ? ` id="g-${c.a[0].toUpperCase()}"` : ""}>${esc(c.a)}</dt><dd>${esc(c.b)} <small>(${esc(c.tema)})</small></dd>`).join("") + `</dl></div>`;
+  },
+  autors: () => thead("Autoria", "Qui som", "Qui hi ha darrere d’aquesta web, amb quins interessos i com contactar-hi.") +
+    `<div class="blocks">` + sec("Els autors", `<p>Som ${INFO.autors.map(esc).join(" i ")}, estudiants de 2n del grau en Ciències de l’Activitat Física i de l’Esport al TecnoCampus (centre adscrit a la Universitat Pompeu Fabra). Hem creat aquesta web com a treball grupal de l’assignatura Pedagogia i principis didàctics de l’AFE.</p>`) +
+    `<div class="pfs">${PERFILS.map(p => `<article class="pf" style="--c:${p.c}"><div class="top">${p.foto ? `<img src="${esc(p.foto)}" alt="Foto de ${esc(p.nom)}">` : `<div class="av">${AVATAR(...p.av)}</div>`}<div><h3>${esc(p.nom)}</h3><p class="rm">Estudiant de 2n de CAFE · TecnoCampus</p><p class="ml"><a href="mailto:${esc(p.mail)}">${esc(p.mail)}</a></p></div></div><div class="body"><span class="bd">${esc(p.badge)}</span><p class="sp">${esc(p.esp)}</p><p class="tx">${esc(p.text)}</p><ul class="tg">${p.tags.map(t => `<li>${esc(t)}</li>`).join("")}</ul></div></article>`).join("")}</div><p class="note">Els perfils professionals descriuen cap a on volem orientar la nostra carrera; no són càrrecs actuals.</p>` +
+    sec("Contacte", `<p>Pots escriure’ns per comentar els continguts, avisar d’un error o d’un enllaç trencat:</p><ul>${PERFILS.map(p => `<li>${esc(p.nom)}: <a href="mailto:${esc(p.mail)}">${esc(p.mail)}</a></li>`).join("")}</ul>`) +
+    sec("Relació amb altres organitzacions", "<p>Els continguts provenen de les presentacions i els documents de l’assignatura del TecnoCampus, centre universitari adscrit a la Universitat Pompeu Fabra.</p>") +
+    sec("Interessos i finançament", "<p>És un projecte acadèmic sense afany de lucre. No inclou publicitat ni rep finançament de cap entitat.</p>") +
+    sec("Objectiu i objectivitat", "<p>La web presenta els continguts del curs com a alternativa a l’aprenentatge clàssic. Resumeix els materials de l’assignatura i en cita les fonts a la bibliografia.</p>") + `</div>`,
+  ajuda: () => thead("Com funciona", "Ajuda", "Com treure partit a aquesta web.") + `<div class="blocks">` +
+    sec("Navegar", "<p>Tria un tema al menú, agrupat per mòduls, o des de les targetes de l’Inici. Al final de cada tema pots anar a l’anterior o al següent. Al mòbil, el menú és a la part superior.</p>") +
+    sec("Cercar", "<p>Escriu al cercador del menú: es filtren els temes que contenen aquella paraula als títols, als textos, a les taules o als conceptes clau.</p>") +
+    sec("Esquemes i eines", "<p>Molts temes comencen amb un esquema. Alguns són interactius: al tema de classificacions pots triar una tasca i veure com es classifica, i al de regular la dificultat pots canviar l’espai, els participants, el material i el temps.</p>") +
+    sec("Estudiar", "<p>Toca les targetes de conceptes clau per veure’n la definició. En acabar un tema, marca’l com a estudiat i la barra del menú s’actualitzarà. El progrés es guarda al teu navegador.</p>") +
+    sec("Posar-te a prova", "<p>A «Posa’t a prova» hi ha preguntes de tot el temari amb correcció immediata. Si falles, cada resposta t’enllaça amb el tema que convé repassar.</p>") +
+    sec("Llegir millor", "<p>Pots canviar entre mode clar i fosc amb el botó del final del menú. Tota la web es pot fer servir amb el teclat.</p>") + `</div>`,
+  bibliografia: () => thead("Fonts", "Bibliografia i webgrafia", "Fonts utilitzades en aquesta web.") + `<div class="blocks">` +
+    sec("Materials del curs", `<ul>${MATERIALS.map(m => `<li>${esc(m)}</li>`).join("")}</ul>`) +
+    sec("Bibliografia", `<ul>${BIBLIO.map(b => `<li>${esc(b)}</li>`).join("")}</ul>`) +
+    sec("Webgrafia i enllaços externs", `<ul>${ENLACES.map(e => `<li><a href="${esc(e.url)}" target="_blank" rel="noopener">${esc(e.titulo)}</a> <small>Consultat el ${esc(e.consulta)}</small></li>`).join("")}</ul>`) + `</div>`
+};
+
+function matches(t, q) {
+  if (!q) return true;
+  const x = [t.t, t.r, ...t.s.flat(), ...(t.k || []).flat(), ...(t.tb || []).flat()].join(" ").toLowerCase();
+  return x.includes(q.toLowerCase());
+}
+
+function renderNav() {
+  const q = $("#q").value.trim(), l = TEMAS.filter(t => matches(t, q));
+  const mods = MODULS.map(([id, n]) => { const ts = l.filter(t => t.m === id); return ts.length ? `<div class="mh" style="${sty(id)}">${esc(n)}</div>` + ts.map(btn).join("") : ""; }).join("");
+  $("#nav").innerHTML = pagBtns("inici", "repte") + '<div class="sep"></div>' + (l.length ? mods : "<p>Cap resultat.</p>") + '<div class="sep"></div>' + pagBtns("glossari", "autors", "ajuda", "bibliografia");
+  const n = TEMAS.filter(t => done[t.id]).length;
+  $("#pb").style.width = (n / TEMAS.length * 100) + "%";
+  $("#pt").textContent = `${n} de ${TEMAS.length} temes estudiats`;
+}
+
+function show(id, focus) {
+  const m = $("#main");
+  if (PAGS[id]) {
+    current = id; m.style.cssText = sty(); m.innerHTML = PAGS[id]();
+  } else {
+    const t = TEMAS.find(x => x.id === id);
+    if (!t) return show("inici", focus);
+    current = t.id; m.style.cssText = sty(t.m);
+    const same = TEMAS.filter(x => x.m === t.m), k = same.indexOf(t) + 1;
+    const i = TEMAS.indexOf(t), pv = TEMAS[i - 1], nx = TEMAS[i + 1];
+    m.innerHTML = thead(`${esc(MC[t.m].n)} · tema ${k} de ${same.length}`, esc(t.t), esc(t.r), t.m) +
+      (DIAG[t.id] ? DIAG[t.id]() : "") + tbl(t.tb) +
+      (() => { const ss = t.s.map(([h, p]) => `<section class="b"><h3>${esc(h)}</h3><p>${esc(p)}</p></section>`), sc = SCENES[t.id];
+        return `<div class="blocks">` + (sc ? `<div class="pair">${ss[0]}${SC[sc]()}</div>` + ss.slice(1).join("") : ss.join("")) + `</div>`; })() +
+      (t.k && t.k.length ? `<h3 class="kt">Conceptes clau</h3><div class="fcs">` + t.k.map(([a, b]) => `<button type="button" class="fc" aria-expanded="false"><b>${esc(a)}</b><span>${esc(b)}</span><small class="hint">Toca per veure la definició</small></button>`).join("") + `</div>` : "") +
+      `<p style="margin-top:30px"><button type="button" class="btn" id="dn" aria-pressed="${!!done[t.id]}">${done[t.id] ? "Tema estudiat ✓" : "Marca com a estudiat"}</button></p>` +
+      `<div class="pn">${pv ? `<button type="button" class="btn" data-go="${pv.id}">← ${esc(pv.t)}</button>` : ""}${nx ? `<button type="button" class="btn" data-go="${nx.id}">${esc(nx.t)} →</button>` : ""}</div>`;
+  }
+  if (location.hash !== "#" + current) history.replaceState(null, "", "#" + current);
+  renderNav();
+  if (focus) { m.focus({preventScroll: true}); scrollTo({top: 0}); }
+}
+const keep = f => { const y = scrollY; f(); show(current); scrollTo({top: y}); };
+
+$("#nav").addEventListener("click", e => { const b = e.target.closest("button[data-id]"); if (b) show(b.dataset.id, true); });
+$("#main").addEventListener("click", e => {
+  const g = e.target.closest("[data-go]");
+  if (g) { show(g.dataset.go, true); return; }
+  const lt = e.target.closest("[data-letter]");
+  if (lt) { e.preventDefault(); const d = document.getElementById("g-" + lt.dataset.letter); if (d) d.scrollIntoView(); return; }
+  const f = e.target.closest(".fc");
+  if (f) f.setAttribute("aria-expanded", f.getAttribute("aria-expanded") !== "true");
+  const tk = e.target.closest("[data-task]");
+  if (tk) keep(() => { taskSel = +tk.dataset.task; });
+  const vb = e.target.closest("[data-var]");
+  if (vb) keep(() => { varSel[+vb.dataset.var] = +vb.dataset.val; });
+  const o = e.target.closest(".opt");
+  if (o && current === "repte") keep(() => { quizAns[+o.dataset.q] = +o.dataset.o; });
+  if (e.target.closest("#qz-reset")) { quizAns = {}; show("repte"); }
+  if (e.target.closest("#dn")) { done[current] = !done[current]; if (!done[current]) delete done[current]; save(); show(current); }
+});
+$("#q").addEventListener("input", renderNav);
+const tbTxt = () => $("#tb").textContent = isDark() ? "Canvia a mode clar" : "Canvia a mode fosc";
+$("#tb").addEventListener("click", () => {
+  theme = isDark() ? "light" : "dark";
+  document.documentElement.dataset.theme = theme;
+  try { localStorage.setItem("ped-theme", theme); } catch (e) {}
+  tbTxt();
+});
+addEventListener("hashchange", () => show(location.hash.slice(1), true));
+tbTxt();
+show(location.hash.slice(1) || "inici");
+</script>
+</body>
+</html>
